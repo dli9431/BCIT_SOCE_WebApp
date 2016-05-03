@@ -1,0 +1,5 @@
+﻿enable-migrations -ContextProject SensorDataModel -ContextTypeName SensorContext -MigrationsDirectory Migrations\SensorMigrations
+
+add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration "InitialCreate"
+
+update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration -Verbose
