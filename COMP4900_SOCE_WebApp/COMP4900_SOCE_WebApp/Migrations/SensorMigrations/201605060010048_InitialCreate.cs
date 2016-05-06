@@ -7,8 +7,6 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
     {
         public override void Up()
         {
-            DropForeignKey("dbo.Sensors", "SensorProject_SensorProjectId", "dbo.SensorProjects");
-            DropIndex("dbo.Sensors", new[] { "SensorProject_SensorProjectId" });
             CreateTable(
                 "dbo.gvs_north",
                 c => new
@@ -76,6 +74,16 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
                 .PrimaryKey(t => t.SensorProjectName);
             
             CreateTable(
+                "dbo.Projects",
+                c => new
+                    {
+                        ProjectId = c.Int(nullable: false, identity: true),
+                        Name = c.String(unicode: false),
+                        Description = c.String(unicode: false),
+                    })
+                .PrimaryKey(t => t.ProjectId);
+            
+            CreateTable(
                 "dbo.SensorDateTimes",
                 c => new
                     {
@@ -83,6 +91,17 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
                         DateTime = c.DateTime(nullable: false, precision: 0),
                     })
                 .PrimaryKey(t => t.DateTimeId);
+            
+            CreateTable(
+                "dbo.SensorProjects",
+                c => new
+                    {
+                        SensorProjectId = c.Int(nullable: false, identity: true),
+                        SensorProjectName = c.String(unicode: false),
+                        SensorProjectType = c.String(unicode: false),
+                        SensorName = c.String(unicode: false),
+                    })
+                .PrimaryKey(t => t.SensorProjectId);
             
             CreateTable(
                 "dbo.th_ext",
@@ -117,49 +136,22 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
                     })
                 .PrimaryKey(t => t.SensorProjectName);
             
-            AddColumn("dbo.SensorProjects", "SensorProjectType", c => c.String(unicode: false));
-            AddColumn("dbo.SensorProjects", "SensorName", c => c.String(unicode: false));
-            AlterColumn("dbo.Projects", "Name", c => c.String(unicode: false));
-            AlterColumn("dbo.Projects", "Description", c => c.String(unicode: false));
-            AlterColumn("dbo.SensorProjects", "SensorProjectName", c => c.String(unicode: false));
-            DropColumn("dbo.SensorProjects", "SensorType");
-            DropColumn("dbo.SensorProjects", "SensorAcronym");
-            DropTable("dbo.Sensors");
         }
         
         public override void Down()
         {
-            CreateTable(
-                "dbo.Sensors",
-                c => new
-                    {
-                        SensorId = c.Int(nullable: false, identity: true),
-                        SensorName = c.String(nullable: false, unicode: false),
-                        SensorValue = c.Double(nullable: false),
-                        DateTime = c.DateTime(nullable: false, precision: 0),
-                        SensorProject_SensorProjectId = c.Int(),
-                    })
-                .PrimaryKey(t => t.SensorId);
-            
-            AddColumn("dbo.SensorProjects", "SensorAcronym", c => c.String(nullable: false, unicode: false));
-            AddColumn("dbo.SensorProjects", "SensorType", c => c.String(nullable: false, unicode: false));
-            AlterColumn("dbo.SensorProjects", "SensorProjectName", c => c.String(nullable: false, unicode: false));
-            AlterColumn("dbo.Projects", "Description", c => c.String(nullable: false, unicode: false));
-            AlterColumn("dbo.Projects", "Name", c => c.String(nullable: false, unicode: false));
-            DropColumn("dbo.SensorProjects", "SensorName");
-            DropColumn("dbo.SensorProjects", "SensorProjectType");
             DropTable("dbo.th_ps");
             DropTable("dbo.th_int");
             DropTable("dbo.th_ext");
+            DropTable("dbo.SensorProjects");
             DropTable("dbo.SensorDateTimes");
+            DropTable("dbo.Projects");
             DropTable("dbo.mh_south");
             DropTable("dbo.mh_north");
             DropTable("dbo.hpws_rp");
             DropTable("dbo.hpws");
             DropTable("dbo.gvs_south");
             DropTable("dbo.gvs_north");
-            CreateIndex("dbo.Sensors", "SensorProject_SensorProjectId");
-            AddForeignKey("dbo.Sensors", "SensorProject_SensorProjectId", "dbo.SensorProjects", "SensorProjectId");
         }
     }
 }

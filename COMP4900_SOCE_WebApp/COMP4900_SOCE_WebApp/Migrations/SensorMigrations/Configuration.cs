@@ -15,22 +15,22 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
             SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
             MigrationsDirectory = @"Migrations\SensorMigrations";
         }
-        
+
         protected override void Seed(SensorDataModel.Models.SensorContext context)
         {
             context.SensorDateTimes.AddOrUpdate(
                p => p.DateTimeId,
                new SensorDateTime
                {
-                    DateTime = DateTime.ParseExact("03/14/2016 13:15", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
+                   DateTime = DateTime.ParseExact("03/14/2016 13:15", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
                },
                new SensorDateTime
                {
-                    DateTime = DateTime.ParseExact("03/14/2016 13:20", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
+                   DateTime = DateTime.ParseExact("03/14/2016 13:20", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
                },
                new SensorDateTime
                {
-                    DateTime = DateTime.ParseExact("03/14/2016 13:25", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
+                   DateTime = DateTime.ParseExact("03/14/2016 13:25", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
                }
            );
 

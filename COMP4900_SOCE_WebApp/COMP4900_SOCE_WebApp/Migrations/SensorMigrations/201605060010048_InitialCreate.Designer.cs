@@ -7,13 +7,13 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class updatedtocurrent : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updatedtocurrent));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605052113594_updated to current"; }
+            get { return "201605060010048_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

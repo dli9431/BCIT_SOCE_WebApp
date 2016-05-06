@@ -209,13 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\SensorMigrations\201605052111236_InitialCreate.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605052111236_InitialCreate.Designer.cs">
-      <DependentUpon>201605052111236_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\SensorMigrations\201605052113594_updated to current.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605052113594_updated to current.Designer.cs">
-      <DependentUpon>201605052113594_updated to current.cs</DependentUpon>
+    <Compile Include="Migrations\SensorMigrations\201605060010048_InitialCreate.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605060010048_InitialCreate.Designer.cs">
+      <DependentUpon>201605060010048_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -306,11 +302,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605052111236_InitialCreate.resx">
-      <DependentUpon>201605052111236_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605052113594_updated to current.resx">
-      <DependentUpon>201605052113594_updated to current.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605060010048_InitialCreate.resx">
+      <DependentUpon>201605060010048_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
