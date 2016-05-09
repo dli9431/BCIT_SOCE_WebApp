@@ -18,6 +18,18 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
 
         protected override void Seed(SensorDataModel.Models.SensorContext context)
         {
+            context.Users.AddOrUpdate(
+                 p => p.UserIdIndex,
+                 new User { StudentId = "A00111111", CustomGroupId = 1 },
+                 new User { StudentId = "A00111111", CustomGroupId = 2 }
+               );
+
+            context.CustomGroups.AddOrUpdate(
+                p => p.CustomGroupId,
+                new CustomGroup { CustomGroupName = "G1", SensorName = "W1TpTcBC" },
+                new CustomGroup { CustomGroupName = "G1", SensorName = "W1GsTcUI" }
+                );
+
             context.SensorDateTimes.AddOrUpdate(
                p => p.DateTimeId,
                new SensorDateTime

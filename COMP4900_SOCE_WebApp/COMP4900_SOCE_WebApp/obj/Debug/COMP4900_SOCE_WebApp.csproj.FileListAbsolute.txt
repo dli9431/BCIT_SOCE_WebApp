@@ -174,3 +174,6 @@ C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_Web
 C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.pdb
 C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.SensorMigrations.InitialCreate.resources
 C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.csproj.GenerateResource.Cache
+C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.AccountMigration.UserIdentity.resources
+C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.SensorMigrations.AddedmodelsforuserCustomgroupnames.resources
+C:\Users\don\workspace\c4900_dev\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.AccountMigration.editeduseridentity.resources

@@ -49,9 +49,10 @@ namespace COMP4900_SOCE_WebApp.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        [StringLength(9, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 9)]
+        [RegularExpression("[aA][0-9]{8}", ErrorMessage = "Must be A12345678 or a12345678 Form")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

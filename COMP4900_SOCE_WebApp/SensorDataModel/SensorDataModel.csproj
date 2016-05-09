@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Identity\IdentityModels.cs" />
+    <Compile Include="Models\CustomGroup.cs" />
     <Compile Include="Models\gvs_north.cs" />
     <Compile Include="Models\gvs_south.cs" />
     <Compile Include="Models\hpws.cs" />
@@ -78,11 +80,10 @@
     <Compile Include="Models\th_ext.cs" />
     <Compile Include="Models\th_int.cs" />
     <Compile Include="Models\th_ps.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Identity\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

@@ -21,8 +21,8 @@ namespace COMP4900_SOCE_WebApp.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
+            : base("MySQLConnection", throwIfV1Schema: false)
+        { 
         }
 
         public static ApplicationDbContext Create()

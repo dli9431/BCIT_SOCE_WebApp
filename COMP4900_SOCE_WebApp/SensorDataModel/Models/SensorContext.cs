@@ -24,7 +24,8 @@ namespace SensorDataModel.Models
         public DbSet<th_ps> th_ps { get; set; }
         public DbSet<gvs_south> gvs_south { get; set; }
         public DbSet<gvs_north> gvs_north { get; set; }
-
+        public DbSet<CustomGroup> CustomGroups { get; set; }
+        public DbSet<User> Users { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
