@@ -7,13 +7,13 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UserIdentityInitial : IMigrationMetadata
+    public sealed partial class UserIdentities : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UserIdentityInitial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UserIdentities));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605102055390_User Identity Initial"; }
+            get { return "201605112122494_User Identities"; }
         }
         
         string IMigrationMetadata.Source

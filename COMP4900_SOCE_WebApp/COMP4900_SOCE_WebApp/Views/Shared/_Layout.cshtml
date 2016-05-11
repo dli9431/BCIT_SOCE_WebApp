@@ -21,11 +21,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-<<<<<<< HEAD
+
                     @if (User.IsInRole("Student"))
                     {
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Project", "Index", "Projects")</li>
+                        <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
+
                     }
 
                     @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
@@ -34,17 +36,14 @@
                         <li>@Html.ActionLink("UserGroup", "Index", "UserGroups")</li>
                         <li>@Html.ActionLink("Project", "Index", "Projects")</li>
                         <li>@Html.ActionLink("User", "Index", "Users")</li>
-                        
+                        <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
+
+
                     }
                     
-=======
-                    <!--<li>@Html.ActionLink("Home", "Index", "Home")</li>-->
-                    <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
-                    <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
->>>>>>> 6f2e4774798ba79b2c0b712703605f5f7929587d
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("csv test", "csv", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

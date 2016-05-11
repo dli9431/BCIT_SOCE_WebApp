@@ -3,35 +3,35 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UserIdentityInitial : DbMigration
+    public partial class UserIdentities : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "AspNetRoles",
+                "dbo.AspNetRoles",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         Name = c.String(nullable: false, maxLength: 256, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => t.Id)                
+                .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
-                "AspNetUserRoles",
+                "dbo.AspNetUserRoles",
                 c => new
                     {
                         UserId = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         RoleId = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })                
-                .ForeignKey("AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "AspNetUsers",
+                "dbo.AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
@@ -49,11 +49,11 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => t.Id)                
+                .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
-                "AspNetUserClaims",
+                "dbo.AspNetUserClaims",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -61,41 +61,41 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                         ClaimType = c.String(unicode: false),
                         ClaimValue = c.String(unicode: false),
                     })
-                .PrimaryKey(t => t.Id)                
-                .ForeignKey("AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
             CreateTable(
-                "AspNetUserLogins",
+                "dbo.AspNetUserLogins",
                 c => new
                     {
                         LoginProvider = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         ProviderKey = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         UserId = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })                
-                .ForeignKey("AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("AspNetUserRoles", "UserId", "AspNetUsers");
-            DropForeignKey("AspNetUserLogins", "UserId", "AspNetUsers");
-            DropForeignKey("AspNetUserClaims", "UserId", "AspNetUsers");
-            DropForeignKey("AspNetUserRoles", "RoleId", "AspNetRoles");
-            DropIndex("AspNetUserLogins", new[] { "UserId" });
-            DropIndex("AspNetUserClaims", new[] { "UserId" });
-            DropIndex("AspNetUsers", "UserNameIndex");
-            DropIndex("AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("AspNetUserRoles", new[] { "UserId" });
-            DropIndex("AspNetRoles", "RoleNameIndex");
-            DropTable("AspNetUserLogins");
-            DropTable("AspNetUserClaims");
-            DropTable("AspNetUsers");
-            DropTable("AspNetUserRoles");
-            DropTable("AspNetRoles");
+            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AspNetUsers");
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetRoles");
         }
     }
 }

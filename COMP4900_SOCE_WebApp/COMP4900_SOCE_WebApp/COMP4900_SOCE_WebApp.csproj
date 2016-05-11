@@ -213,22 +213,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605102055390_User Identity Initial.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605102055390_User Identity Initial.Designer.cs">
-      <DependentUpon>201605102055390_User Identity Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605110505552_added extension to user identity.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605110505552_added extension to user identity.Designer.cs">
-      <DependentUpon>201605110505552_added extension to user identity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605110540212_first name last name.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605110540212_first name last name.Designer.cs">
-      <DependentUpon>201605110540212_first name last name.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605112122494_User Identities.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605112122494_User Identities.Designer.cs">
+      <DependentUpon>201605112122494_User Identities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AccountMigrations\Configuration.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605101842070_InitialCreate.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605101842070_InitialCreate.Designer.cs">
-      <DependentUpon>201605101842070_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\SensorMigrations\201605112117196_InitialCreate.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605112117196_InitialCreate.Designer.cs">
+      <DependentUpon>201605112117196_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -342,17 +334,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605102055390_User Identity Initial.resx">
-      <DependentUpon>201605102055390_User Identity Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605112122494_User Identities.resx">
+      <DependentUpon>201605112122494_User Identities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605110505552_added extension to user identity.resx">
-      <DependentUpon>201605110505552_added extension to user identity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605110540212_first name last name.resx">
-      <DependentUpon>201605110540212_first name last name.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605101842070_InitialCreate.resx">
-      <DependentUpon>201605101842070_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605112117196_InitialCreate.resx">
+      <DependentUpon>201605112117196_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
