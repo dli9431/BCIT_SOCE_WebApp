@@ -1,0 +1,72 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityUser
+
+@{
+    ViewBag.Title = "ManageUserRoles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Manage User Roles</h2>
+@Html.ActionLink("Create New Role", "Create", "Roles")
+<hr />
+
+@if (ViewBag.Message != null)
+{
+    <div>
+        <p>@ViewBag.Message </p>
+    </div>
+}
+
+<h3>Role Add to User</h3>
+@using (Html.BeginForm("RoleAddToUser", "Users"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.UserDropdownlist, htmlAttributes: new { @class = "form-control" })
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.RoleDropdownlist, htmlAttributes: new { @class = "form-control" })
+    </p>
+
+    <input type="submit" value="Save" />
+}
+<hr />
+<h3>Get Roles for a User</h3>
+@using (Html.BeginForm("GetRoles", "Users"))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.UserDropdownlist, htmlAttributes: new { @class = "form-control" })
+        <input type="submit" value="Get Roles for this User" />
+    </p>
+}
+@if (ViewBag.UserRoles != null)
+{
+    <div style="background-color:yellow;">
+        <h3>Roles for this user </h3>
+        <ol>
+            @foreach (string s in ViewBag.UserRoles)
+            {
+                <li>@s</li>
+            }
+        </ol>
+    </div>
+}
+<hr />
+<h3>Delete A User from a Role</h3>
+@using (Html.BeginForm("DeleteRoleForUser", "Users"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.UserDropdownlist, htmlAttributes: new { @class = "form-control" })
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.RoleDropdownlist, htmlAttributes: new { @class = "form-control" })
+    </p>
+
+    <input type="submit" value="Delete this user from Role" />
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

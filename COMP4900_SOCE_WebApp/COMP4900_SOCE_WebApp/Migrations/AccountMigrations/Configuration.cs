@@ -1,13 +1,13 @@
-namespace COMP4900_SOCE_WebApp.Migrations.AccountMigration
+namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
-    using SensorDataModel.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    
 
     internal sealed class Configuration : DbMigrationsConfiguration<COMP4900_SOCE_WebApp.Models.ApplicationDbContext>
     {
@@ -15,7 +15,8 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigration
         {
             AutomaticMigrationsEnabled = false;
             SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
-            MigrationsDirectory = @"Migrations\AccountMigration";
+            CodeGenerator = new MySql.Data.Entity.MySqlMigrationCodeGenerator();
+            MigrationsDirectory = @"Migrations\AccountMigrations";
         }
 
         protected override void Seed(COMP4900_SOCE_WebApp.Models.ApplicationDbContext context)
@@ -48,14 +49,16 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigration
                 var newAdminUser = new ApplicationUser()
                 {
                     UserName = "A00111111",
-                    Email = "a@a.a"
+                    Email = "a@a.a",
+                    fName = "Doug",
+                    lName = "Horn",
+                    SecurityStamp = Guid.NewGuid().ToString()
                 };
                 var result = userManager.Create(newAdminUser, "P@$$w0rd");
                 if (result.Succeeded)
                 {
                     userManager.SetLockoutEnabled(newAdminUser.Id, false);
                     userManager.AddToRole(newAdminUser.Id, "Admin");
-                    userManager.AddToRole(newAdminUser.Id, "Student");
                 }
 
             }
@@ -66,7 +69,10 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigration
                 var newStudentUser = new ApplicationUser()
                 {
                     UserName = "A00222222",
-                    Email = "s@s.s"
+                    Email = "s@s.s",
+                    fName = "Jin",
+                    lName = "An",
+                    SecurityStamp = Guid.NewGuid().ToString()
                 };
                 var result = userManager.Create(newStudentUser, "P@$$w0rd");
                 if (result.Succeeded)
@@ -77,24 +83,25 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigration
             }
 
             // Create test users
-            //Create administrator test user
-            var studentUser2 = userManager.FindByName("A00333333");
-            if (studentUser2 == null)
+            //Create supervisor test user
+            var supervisorUser = userManager.FindByName("A00333333");
+            if (supervisorUser == null)
             {
                 var newSupervisorUser = new ApplicationUser()
                 {
                     UserName = "A00333333",
-                    Email = "b@b.b"
+                    Email = "b@b.b",
+                    fName = "She Jong",
+                    lName = "Shon",
+                    SecurityStamp = Guid.NewGuid().ToString()
                 };
                 var result = userManager.Create(newSupervisorUser, "P@$$w0rd");
                 if (result.Succeeded)
                 {
-                    userManager.SetLockoutEnabled(newSupervisorUser.Id, true);
+                    userManager.SetLockoutEnabled(newSupervisorUser.Id, false);
                     userManager.AddToRole(newSupervisorUser.Id, "Supervisor");
                 }
-
             }
         }
-
     }
 }

@@ -7,13 +7,13 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedmodelsforuserCustomgroupnames : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedmodelsforuserCustomgroupnames));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605091746407_Added models for user Custom group names"; }
+            get { return "201605101842070_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

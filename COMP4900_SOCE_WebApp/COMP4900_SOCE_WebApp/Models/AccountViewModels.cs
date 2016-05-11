@@ -52,7 +52,7 @@ namespace COMP4900_SOCE_WebApp.Models
         [Display(Name = "Username")]
         [StringLength(9, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 9)]
         [RegularExpression("[aA][0-9]{8}", ErrorMessage = "Must be A12345678 or a12345678 Form")]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -65,6 +65,22 @@ namespace COMP4900_SOCE_WebApp.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Username")]
+        [StringLength(9, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 9)]
+        [RegularExpression("[aA][0-9]{8}", ErrorMessage = "Must be A12345678 or a12345678 Form")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "User Roles")]
+        public string UserRoles { get; set; }
+
+        [Display(Name = "First Name")]
+        public string fName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string lName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

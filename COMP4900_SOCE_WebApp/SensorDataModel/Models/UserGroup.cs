@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SensorDataModel.Models
 {
-    public class User
+    public class UserGroup
     {
         [Key]
         public int UserIdIndex { get; set; }

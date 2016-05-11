@@ -8,6 +8,16 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
         public override void Up()
         {
             CreateTable(
+                "dbo.CustomGroups",
+                c => new
+                    {
+                        CustomGroupId = c.Int(nullable: false, identity: true),
+                        CustomGroupName = c.String(unicode: false),
+                        SensorName = c.String(unicode: false),
+                    })
+                .PrimaryKey(t => t.CustomGroupId);
+            
+            CreateTable(
                 "dbo.gvs_north",
                 c => new
                     {
@@ -136,10 +146,21 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
                     })
                 .PrimaryKey(t => t.SensorProjectName);
             
+            CreateTable(
+                "dbo.UserGroups",
+                c => new
+                    {
+                        UserIdIndex = c.Int(nullable: false, identity: true),
+                        StudentId = c.String(unicode: false),
+                        CustomGroupId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserIdIndex);
+            
         }
         
         public override void Down()
         {
+            DropTable("dbo.UserGroups");
             DropTable("dbo.th_ps");
             DropTable("dbo.th_int");
             DropTable("dbo.th_ext");
@@ -152,6 +173,7 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
             DropTable("dbo.hpws");
             DropTable("dbo.gvs_south");
             DropTable("dbo.gvs_north");
+            DropTable("dbo.CustomGroups");
         }
     }
 }

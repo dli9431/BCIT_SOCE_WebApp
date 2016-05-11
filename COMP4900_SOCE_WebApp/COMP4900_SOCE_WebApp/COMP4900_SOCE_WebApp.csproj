@@ -207,25 +207,28 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UserGroupsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigration\201605091730401_UserIdentity.cs" />
-    <Compile Include="Migrations\AccountMigration\201605091730401_UserIdentity.Designer.cs">
-      <DependentUpon>201605091730401_UserIdentity.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605102055390_User Identity Initial.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605102055390_User Identity Initial.Designer.cs">
+      <DependentUpon>201605102055390_User Identity Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigration\201605091748533_edited user identity.cs" />
-    <Compile Include="Migrations\AccountMigration\201605091748533_edited user identity.Designer.cs">
-      <DependentUpon>201605091748533_edited user identity.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605110505552_added extension to user identity.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605110505552_added extension to user identity.Designer.cs">
+      <DependentUpon>201605110505552_added extension to user identity.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigration\Configuration.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605060010048_InitialCreate.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605060010048_InitialCreate.Designer.cs">
-      <DependentUpon>201605060010048_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605110540212_first name last name.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605110540212_first name last name.Designer.cs">
+      <DependentUpon>201605110540212_first name last name.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\SensorMigrations\201605091746407_Added models for user Custom group names.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605091746407_Added models for user Custom group names.Designer.cs">
-      <DependentUpon>201605091746407_Added models for user Custom group names.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\Configuration.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605101842070_InitialCreate.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605101842070_InitialCreate.Designer.cs">
+      <DependentUpon>201605101842070_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -301,6 +304,22 @@
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\UserGroups\Create.cshtml" />
+    <Content Include="Views\UserGroups\Delete.cshtml" />
+    <Content Include="Views\UserGroups\Details.cshtml" />
+    <Content Include="Views\UserGroups\Edit.cshtml" />
+    <Content Include="Views\UserGroups\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Users\ManageUserRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -320,17 +339,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\AccountMigration\201605091730401_UserIdentity.resx">
-      <DependentUpon>201605091730401_UserIdentity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605102055390_User Identity Initial.resx">
+      <DependentUpon>201605102055390_User Identity Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\AccountMigration\201605091748533_edited user identity.resx">
-      <DependentUpon>201605091748533_edited user identity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605110505552_added extension to user identity.resx">
+      <DependentUpon>201605110505552_added extension to user identity.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605060010048_InitialCreate.resx">
-      <DependentUpon>201605060010048_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605110540212_first name last name.resx">
+      <DependentUpon>201605110540212_first name last name.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605091746407_Added models for user Custom group names.resx">
-      <DependentUpon>201605091746407_Added models for user Custom group names.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605101842070_InitialCreate.resx">
+      <DependentUpon>201605101842070_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
