@@ -4,11 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Projects</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <input type="submit" value="Create New" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Create", "Projects")'" >
+
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -26,14 +28,19 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.TextAreaFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProjectId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProjectId })
+            <input type="submit" value="Assign" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Assign"  , "Projects", new { id=item.ProjectId })'">
+            <input type="submit" value="Edit" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Edit"  , "Projects", new { id=item.ProjectId })'">
+            <input type="submit" value="Remove" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Delete", "Projects", new { id=item.ProjectId })'">
         </td>
     </tr>
 }
 
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
