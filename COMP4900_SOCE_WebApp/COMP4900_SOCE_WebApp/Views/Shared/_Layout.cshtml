@@ -17,10 +17,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("SOCE BSCE DB", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("SOCE BSCE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+<<<<<<< HEAD
                     @if (User.IsInRole("Student"))
                     {
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -36,6 +37,12 @@
                         
                     }
                     
+=======
+                    <!--<li>@Html.ActionLink("Home", "Index", "Home")</li>-->
+                    <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
+                    <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
+                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+>>>>>>> 6f2e4774798ba79b2c0b712703605f5f7929587d
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>

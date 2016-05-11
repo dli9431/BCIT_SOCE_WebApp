@@ -89,6 +89,37 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return View(project);
         }
 
+        // GET: Projects/Assign/5
+        public ActionResult Assign(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            return View(project);
+        }
+
+        // POST: Projects/Assign/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Assign([Bind(Include = "ProjectId,Name,Description")] Project project)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(project).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(project);
+        }
+
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
