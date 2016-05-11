@@ -10,7 +10,7 @@ namespace SensorDataModel.Models
     public class mh_north
     {
         [Key]
-        public string SensorProjectName { get; set; }
+        public int mh_northId { get; set; }
 
         public string SensorName { get; set; }
 

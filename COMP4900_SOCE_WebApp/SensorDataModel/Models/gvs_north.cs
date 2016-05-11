@@ -10,7 +10,7 @@ namespace SensorDataModel.Models
     public class gvs_north
     {
         [Key]
-        public string SensorProjectName { get; set; }
+        public int gvs_northId { get; set; }
 
         public string SensorName { get; set; }
 

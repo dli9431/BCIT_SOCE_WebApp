@@ -23,13 +23,17 @@ namespace SensorDataModel.Models
         public string Description { get; set; }
 
         //[Required]
-        [Display(Name = "Supervisor")]
-        public IEnumerable<string> supervisors { get; set; }
-
+        //[Display(Name = "Supervisors")]
+        //public string supervisorUser { get; set; }
+        
         //[Required]
-        [Display(Name = "Students")]
-        public IEnumerable<string> students { get; set; }
+        [Display(Name = "User")]
+        public string UserName { get; set; }
 
+        //[Display(Name = "Sensor")]
+        
+
+        // sensors
         //user sets this for project
         //[Required]
         //[Display(Name = "Sensor Group")]

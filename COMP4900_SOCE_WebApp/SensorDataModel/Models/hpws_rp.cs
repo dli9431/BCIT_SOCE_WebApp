@@ -10,7 +10,7 @@ namespace SensorDataModel.Models
     public class hpws_rp
     {
         [Key]
-        public string SensorProjectName { get; set; }
+        public int hpws_rpId { get; set; }
 
         public string SensorName { get; set; }
 

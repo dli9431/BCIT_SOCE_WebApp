@@ -10,7 +10,7 @@ namespace SensorDataModel.Models
     public class th_ext
     {
         [Key]
-        public string SensorProjectName { get; set; }
+        public int th_extId { get; set; }
 
         public string SensorName { get; set; }
 
