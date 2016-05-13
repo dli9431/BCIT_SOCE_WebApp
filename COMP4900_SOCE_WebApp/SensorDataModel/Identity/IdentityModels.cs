@@ -15,6 +15,9 @@ namespace COMP4900_SOCE_WebApp.Models
         [Display(Name = "Last Name")]
         public string lName { get; set; }
 
+        [Display(Name = "Active User")]
+        public bool IsActive { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

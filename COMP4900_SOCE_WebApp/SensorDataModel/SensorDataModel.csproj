@@ -76,7 +76,6 @@
     <Compile Include="Models\mh_south.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\SensorContext.cs" />
-    <Compile Include="Models\SensorDateTime.cs" />
     <Compile Include="Models\SensorProject.cs" />
     <Compile Include="Models\th_ext.cs" />
     <Compile Include="Models\th_int.cs" />

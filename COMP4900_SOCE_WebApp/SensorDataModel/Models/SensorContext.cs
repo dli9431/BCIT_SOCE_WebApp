@@ -14,7 +14,6 @@ namespace SensorDataModel.Models
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<SensorProject> SensorProjects { get; set; }
-        public DbSet<SensorDateTime> SensorDateTimes { get; set; }
         public DbSet<hpws> hpws { get; set; }
         public DbSet<hpws_rp> hpws_rp { get; set; }
         public DbSet<mh_north> mh_north { get; set; }

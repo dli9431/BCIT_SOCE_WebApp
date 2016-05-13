@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using COMP4900_SOCE_WebApp.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
@@ -70,6 +71,17 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var userStore = new UserStore<ApplicationUser>(db);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            var loginUser = userManager.FindByName(model.UserName);
+
+            if (loginUser.IsActive == false)
+            {
+                ModelState.AddModelError(String.Empty, "That user has been deleted.");
+                return View(model);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);

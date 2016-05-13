@@ -24,6 +24,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         //Get: Roles
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
@@ -46,6 +47,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Users/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var roles = db.Roles.ToList();
@@ -63,8 +65,15 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "UserName,Email,EmailConfirmed,fName,lName,PasswordHash,LockoutEnabled,AccessFailedCount")] ApplicationUser user, string roleName)
         {
+            //if (user.PasswordHash.Length < 6)
+            //{
+            //    ViewBag.PassLength = "Password must be at least 6 characters";
+            //    return View(user);
+            //}
+
             if (ModelState.IsValid)
             {
                 //ArrayList rolesList = new ArrayList();
@@ -87,9 +96,10 @@ namespace COMP4900_SOCE_WebApp.Controllers
                         fName = user.fName,
                         lName = user.lName,
                         //PasswordHash = user.PasswordHash,
-                        LockoutEnabled = user.LockoutEnabled,
+                        LockoutEnabled = false,
                         SecurityStamp = Guid.NewGuid().ToString(),
-                        AccessFailedCount = user.AccessFailedCount
+                        AccessFailedCount = 1,
+                        IsActive = true
                     };
                     var result = userManager.Create(newUser, user.PasswordHash);
                     if (result.Succeeded)
@@ -113,6 +123,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Roles/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -132,6 +143,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(ApplicationUser user)
         {
             if (ModelState.IsValid)
@@ -145,33 +157,40 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Options/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = db.Roles.Find(id);
+            var user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //var user = db.Users.Find(id);
+            
             return View(user);
         }
 
         // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteConfirmed(string id)
         {
-            var user = db.Roles.Find(id);
-            db.Roles.Remove(user);
+            //var user = db.Roles.Find(id);
+            //db.Roles.Remove(user);
+            var userActive = db.Users.Find(id);
+            userActive.IsActive = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         // GET: Roles/Edit/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult LockOut(string id)
         {
             if (id == null)
@@ -191,6 +210,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult LockOut(ApplicationUser user)
         {
             if (ModelState.IsValid)
@@ -206,7 +226,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return View(user);
         }
         // GET: Users/ManageUserRoles
-
+        [Authorize(Roles = "Admin")]
         public ActionResult ManageUserRoles()
         {
             var users = db.Users.ToList();
@@ -232,12 +252,13 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult RoleAddToUser(string userName, string roleName)
         {
             var user = db.Users.Where(u => u.UserName == userName).FirstOrDefault();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             userManager.AddToRole(userManager.FindByEmail(user.Email).Id, roleName);
-            TempData["Message"] = "- " + roleName + " role added to user " + userName + "successfully !";
+            TempData["Message"] = "- " + roleName + " role added to user " + userName + " successfully !";
 
             return RedirectToAction("ManageUserRoles");
         }
@@ -245,6 +266,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // POST: Users/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult GetRoles(string userName)
         {
             var user = db.Users.Where(u => u.UserName == userName).FirstOrDefault();
@@ -256,11 +278,12 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteRoleForUser(string userName, string roleName)
         {
             if (userName == "A00111111" && roleName == "Admin")
             {
-                TempData["Message"] = "- " + roleName + " role cannot removed from user " + userName;
+                TempData["Message"] = "- " + roleName + " role cannot be removed from user " + userName;
                 return RedirectToAction("ManageUserRoles");
             }
 
@@ -270,7 +293,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             if (userManager.IsInRole(user.Id, roleName))
             {
                 userManager.RemoveFromRole(userManager.FindByEmail(user.Email).Id, roleName);
-                TempData["Message"] = "- " + roleName + " role removed from user " + userName + "successfully !";
+                TempData["Message"] = "- " + roleName + " role removed from user " + userName + " successfully !";
             }
             else
             {
@@ -280,6 +303,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return RedirectToAction("ManageUserRoles");
         }
 
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)

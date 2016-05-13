@@ -13,47 +13,31 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
         {
             AutomaticMigrationsEnabled = false;
             SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
+            CodeGenerator = new MySql.Data.Entity.MySqlMigrationCodeGenerator();
             MigrationsDirectory = @"Migrations\SensorMigrations";
         }
 
         protected override void Seed(SensorDataModel.Models.SensorContext context)
         {
-            context.SensorDateTimes.AddOrUpdate(
-               p => p.DateTimeId,
-               new SensorDateTime
-               {
-                   DateTime = DateTime.ParseExact("03/14/2016 13:15", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
-               },
-               new SensorDateTime
-               {
-                   DateTime = DateTime.ParseExact("03/14/2016 13:20", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
-               },
-               new SensorDateTime
-               {
-                   DateTime = DateTime.ParseExact("03/14/2016 13:25", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
-               }
-           );
-
-
             context.hpws.AddOrUpdate(
                 p => p.hpwsId,
                 new hpws
                 {
                     SensorName = "W1GsTcUI",
                     SensorValue = 1,
-                    DateTimeId = 1
+                    DateTime = DateTime.ParseExact("03/14/2016 13:15", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
                 },
                 new hpws
                 {
                     SensorName = "W1TpTcBC",
                     SensorValue = 2,
-                    DateTimeId = 2
+                    DateTime = DateTime.ParseExact("03/14/2016 13:20", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
                 },
                 new hpws
                 {
                     SensorName = "W1SdTcUC",
                     SensorValue = 3,
-                    DateTimeId = 3
+                    DateTime = DateTime.ParseExact("03/14/2016 13:25", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
                 }
             );
 

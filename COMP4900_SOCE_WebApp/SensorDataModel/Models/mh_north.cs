@@ -16,6 +16,6 @@ namespace SensorDataModel.Models
 
         public double SensorValue { get; set; }
 
-        public int SensorDateTimeId { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

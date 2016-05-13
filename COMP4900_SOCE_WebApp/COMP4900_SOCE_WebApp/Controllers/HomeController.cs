@@ -151,7 +151,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         //    }
         //}
         MySqlConnection connection;
-        string[] files = Directory.GetFiles("D:/computer/csv files", "*.csv");
+        string[] files = Directory.GetFiles("c:/sensor_data", "*.csv");
         string[] sensorNames;
         string[] eachRow;
 

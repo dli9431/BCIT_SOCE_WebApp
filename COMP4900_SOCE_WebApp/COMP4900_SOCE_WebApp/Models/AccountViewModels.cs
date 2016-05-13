@@ -57,6 +57,7 @@ namespace COMP4900_SOCE_WebApp.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
