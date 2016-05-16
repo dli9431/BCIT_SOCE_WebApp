@@ -179,3 +179,6 @@ C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_We
 C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.SensorMigrations.test.resources
 C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.AccountMigrations.addedinactiveuser.resources
 C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.Migrations.SensorMigrations.deleteddatetimetableandaddeddatetimevalueto9projecttables.resources
+C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\LumenWorks.Framework.IO.dll
+C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\LumenWorks.Framework.IO.pdb
+C:\Users\don\workspace\c4900_dev2\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\LumenWorks.Framework.IO.xml
