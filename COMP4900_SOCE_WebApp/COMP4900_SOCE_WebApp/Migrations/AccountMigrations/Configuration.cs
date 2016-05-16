@@ -52,6 +52,7 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                     Email = "a@a.a",
                     fName = "Doug",
                     lName = "Horn",
+                    IsActive = true,
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
                 var result = userManager.Create(newAdminUser, "P@$$w0rd");
@@ -72,6 +73,7 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                     Email = "s@s.s",
                     fName = "Jin",
                     lName = "An",
+                    IsActive = true,
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
                 var result = userManager.Create(newStudentUser, "P@$$w0rd");
@@ -93,6 +95,7 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                     Email = "b@b.b",
                     fName = "She Jong",
                     lName = "Shon",
+                    IsActive = true,
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
                 var result = userManager.Create(newSupervisorUser, "P@$$w0rd");
@@ -100,6 +103,28 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                 {
                     userManager.SetLockoutEnabled(newSupervisorUser.Id, false);
                     userManager.AddToRole(newSupervisorUser.Id, "Supervisor");
+                }
+            }
+
+            // Create test users
+            //Create supervisor test user
+            var adminUser2 = userManager.FindByName("A00555555");
+            if (adminUser != null)
+            {
+                var newAdminUser = new ApplicationUser()
+                {
+                    UserName = "A00555555",
+                    Email = "Good@g.com",
+                    fName = "Byunghak",
+                    lName = "Kim",
+                    IsActive = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+                var result = userManager.Create(newAdminUser, "P@$$w0rd");
+                if (result.Succeeded)
+                {
+                    userManager.SetLockoutEnabled(newAdminUser.Id, false);
+                    userManager.AddToRole(newAdminUser.Id, "Supervisor");
                 }
             }
         }

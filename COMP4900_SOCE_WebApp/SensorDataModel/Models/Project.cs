@@ -21,17 +21,19 @@ namespace SensorDataModel.Models
         //[Required]
         [Display(Name = "Project Description")]
         public string Description { get; set; }
-
-        //[Required]
-        //[Display(Name = "Supervisors")]
-        //public string supervisorUser { get; set; }
         
         //[Required]
         [Display(Name = "User")]
+        //[ForeignKey("UserName")]
+        [UIHint("_UsersDropDown")]
         public string UserName { get; set; }
 
+        //[Required]
+        //[Display(Name = "Supervisors")]
+
+        //public string supervisorUser { get; set; }
         //[Display(Name = "Sensor")]
-        
+
 
         // sensors
         //user sets this for project

@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SensorDataModel.Models;
+using COMP4900_SOCE_WebApp.Models;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
     public class ProjectsController : Controller
     {
         private SensorContext db = new SensorContext();
+        private ApplicationDbContext db2 = new ApplicationDbContext();
 
         // GET: Projects
         public ActionResult Index()
@@ -101,6 +103,11 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return HttpNotFound();
             }
+            Project newProject = new Project();
+
+            ViewBag.Users = new SelectList(
+            db2.Users.Where(o => o.IsActive == true).OrderBy(o => o.UserName),
+            "UserName", "UserName", project.UserName);
             return View(project);
         }
 
@@ -109,7 +116,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Assign([Bind(Include = "ProjectId,Name,Description")] Project project)
+        public ActionResult Assign(Project project)
         {
             if (ModelState.IsValid)
             {
