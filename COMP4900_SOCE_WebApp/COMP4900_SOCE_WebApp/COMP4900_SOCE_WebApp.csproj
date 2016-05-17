@@ -217,28 +217,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605112122494_User Identities.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605112122494_User Identities.Designer.cs">
-      <DependentUpon>201605112122494_User Identities.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605161830333_User Identities.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605161830333_User Identities.Designer.cs">
+      <DependentUpon>201605161830333_User Identities.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605121839345_added inactive user.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605121839345_added inactive user.Designer.cs">
-      <DependentUpon>201605121839345_added inactive user.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\AccountConfiguration.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605161826382_InitialCreate.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605161826382_InitialCreate.Designer.cs">
+      <DependentUpon>201605161826382_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\Configuration.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605112117196_InitialCreate.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605112117196_InitialCreate.Designer.cs">
-      <DependentUpon>201605112117196_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\SensorMigrations\201605112247390_test.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605112247390_test.Designer.cs">
-      <DependentUpon>201605112247390_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\SensorMigrations\201605122225206_deleted datetime table and added datetime value to 9 project tables.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605122225206_deleted datetime table and added datetime value to 9 project tables.Designer.cs">
-      <DependentUpon>201605122225206_deleted datetime table and added datetime value to 9 project tables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
+    <Compile Include="Migrations\SensorMigrations\SensorConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -357,20 +345,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605112122494_User Identities.resx">
-      <DependentUpon>201605112122494_User Identities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605161830333_User Identities.resx">
+      <DependentUpon>201605161830333_User Identities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605121839345_added inactive user.resx">
-      <DependentUpon>201605121839345_added inactive user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605112117196_InitialCreate.resx">
-      <DependentUpon>201605112117196_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605112247390_test.resx">
-      <DependentUpon>201605112247390_test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605122225206_deleted datetime table and added datetime value to 9 project tables.resx">
-      <DependentUpon>201605122225206_deleted datetime table and added datetime value to 9 project tables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605161826382_InitialCreate.resx">
+      <DependentUpon>201605161826382_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

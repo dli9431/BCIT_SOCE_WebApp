@@ -1,7 +1,7 @@
 ﻿enable-migrations -ContextProject SensorDataModel -ContextTypeName SensorContext -MigrationsDirectory Migrations\SensorMigrations
-add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration "InitialCreate"
-update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration -Verbose
+add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.SensorConfiguration "InitialCreate"
+update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.SensorConfiguration -Verbose
 
 enable-Migrations -ContextTypeName ApplicationDbContext –ContextProject SensorDataModel -MigrationsDirectory Migrations\AccountMigrations
-add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.Configuration "User Identities"
-update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.Configuration -Verbose
+add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.AccountConfiguration "User Identities"
+update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.AccountConfiguration -Verbose
