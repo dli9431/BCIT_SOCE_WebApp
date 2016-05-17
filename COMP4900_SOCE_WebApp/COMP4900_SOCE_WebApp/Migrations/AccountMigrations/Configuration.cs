@@ -8,9 +8,10 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class AccountConfiguration : DbMigrationsConfiguration<COMP4900_SOCE_WebApp.Models.ApplicationDbContext>
+
+    internal sealed class Configuration : DbMigrationsConfiguration<COMP4900_SOCE_WebApp.Models.ApplicationDbContext>
     {
-        public AccountConfiguration()
+        public Configuration()
         {
             AutomaticMigrationsEnabled = false;
             SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());

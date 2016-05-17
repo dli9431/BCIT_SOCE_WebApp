@@ -217,16 +217,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605161830333_User Identities.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605161830333_User Identities.Designer.cs">
-      <DependentUpon>201605161830333_User Identities.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605171825290_User Identities.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605171825290_User Identities.Designer.cs">
+      <DependentUpon>201605171825290_User Identities.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\AccountConfiguration.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605161826382_InitialCreate.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605161826382_InitialCreate.Designer.cs">
-      <DependentUpon>201605161826382_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\Configuration.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605171823285_InitialCreate.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605171823285_InitialCreate.Designer.cs">
+      <DependentUpon>201605171823285_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\SensorMigrations\SensorConfiguration.cs" />
+    <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -345,11 +345,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605161830333_User Identities.resx">
-      <DependentUpon>201605161830333_User Identities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605171825290_User Identities.resx">
+      <DependentUpon>201605171825290_User Identities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605161826382_InitialCreate.resx">
-      <DependentUpon>201605161826382_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605171823285_InitialCreate.resx">
+      <DependentUpon>201605171823285_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
