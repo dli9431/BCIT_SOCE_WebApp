@@ -271,3 +271,9 @@ D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SO
 D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.csproj.GenerateResource.Cache
 D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.dll
 D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\obj\Debug\COMP4900_SOCE_WebApp.pdb
+D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\System.Net.Http.Formatting.dll
+D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\System.Web.Http.dll
+D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\System.Web.Http.WebHost.dll
+D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\System.Net.Http.Formatting.xml
+D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\System.Web.Http.xml
+D:\4900\comp4900\COMP4900_SOCE_WebApp\COMP4900_SOCE_WebApp\bin\System.Web.Http.WebHost.xml

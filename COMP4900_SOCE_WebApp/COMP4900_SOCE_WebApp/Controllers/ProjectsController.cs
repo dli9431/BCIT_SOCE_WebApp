@@ -91,8 +91,50 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return View(project);
         }
 
-        // GET: Projects/Assign/5
-        public ActionResult Assign(int? id)
+        // GET: Projects/AssignUsersToProjects/5
+        public ActionResult AssignSensorsToProjects(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupProject groupProject = new GroupProject();
+
+            groupProject.Projects = (from b in db.Projects
+                                     where b.ProjectId == id
+                                     select b).FirstOrDefault();
+
+            var checkProject = groupProject.Projects;
+            checkProject = db.Projects.Find(id);
+
+            if (checkProject == null)
+            {
+                return HttpNotFound();
+            }
+            return View(groupProject);
+        }
+        
+
+
+        // POST: Projects/AssignUsersToProjects/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(sensorProject).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("Index", "SensorProjects");
+            }
+            return View(sensorProject);
+        }
+
+        // GET: Projects/AssignUsersToProjects/5
+        public ActionResult AssignUsersToProjects(int? id)
         {
             if (id == null)
             {
@@ -103,20 +145,15 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return HttpNotFound();
             }
-            Project newProject = new Project();
-
-            ViewBag.Users = new SelectList(
-            db2.Users.Where(o => o.IsActive == true).OrderBy(o => o.UserName),
-            "UserName", "UserName", project.UserName);
             return View(project);
         }
 
-        // POST: Projects/Assign/5
+        // POST: Projects/AssignUsersToProjects/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Assign(Project project)
+        public ActionResult AssignUsersToProjects(Project project)
         {
             if (ModelState.IsValid)
             {
