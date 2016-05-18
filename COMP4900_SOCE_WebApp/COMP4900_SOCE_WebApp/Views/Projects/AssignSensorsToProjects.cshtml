@@ -1,0 +1,82 @@
+﻿@model SensorDataModel.Models.GroupProject
+
+@{
+    ViewBag.Title = "Assign Sensors to Projects";
+}
+
+<h2>Assign Sensors to Projects</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Project</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Projects.ProjectId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Projects.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="ProjectName">
+                @Html.DisplayFor(model => model.Projects.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Projects.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Projects.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Projects.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Projects.Description)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SensorProject.SensorProjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SensorProject.SensorProjectName, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Name } })
+                @Html.ValidationMessageFor(model => model.SensorProject.SensorProjectName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SensorProject.SensorProjectType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SensorProject.SensorProjectType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SensorProject.SensorProjectType)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SensorProject.SensorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SensorProject.SensorName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SensorProject.SensorName)
+            </div>
+        </div>
+
+  
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    //Read ProjectName from Project table, after that create Project Name to save the SensorProject table
+    var ProjectName = document.getElementById("Projects_Name").value;
+    document.getElementById("SensorProject_SensorProjectName").value = ProjectName;
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
