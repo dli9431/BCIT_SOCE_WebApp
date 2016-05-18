@@ -8,35 +8,36 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
         public override void Up()
         {
             CreateTable(
-                "dbo.AspNetRoles",
+                "AspNetRoles",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         Name = c.String(nullable: false, maxLength: 256, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.Id)                
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
-                "dbo.AspNetUserRoles",
+                "AspNetUserRoles",
                 c => new
                     {
                         UserId = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         RoleId = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.UserId, t.RoleId })                
+                .ForeignKey("AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.AspNetUsers",
+                "AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         fName = c.String(unicode: false),
                         lName = c.String(unicode: false),
+                        IsActive = c.Boolean(nullable: false),
                         Email = c.String(maxLength: 256, storeType: "nvarchar"),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(unicode: false),
@@ -49,11 +50,11 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.Id)                
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
-                "dbo.AspNetUserClaims",
+                "AspNetUserClaims",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -61,41 +62,41 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
                         ClaimType = c.String(unicode: false),
                         ClaimValue = c.String(unicode: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .PrimaryKey(t => t.Id)                
+                .ForeignKey("AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.AspNetUserLogins",
+                "AspNetUserLogins",
                 c => new
                     {
                         LoginProvider = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         ProviderKey = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                         UserId = c.String(nullable: false, maxLength: 128, storeType: "nvarchar"),
                     })
-                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })                
+                .ForeignKey("AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetRoles");
+            DropForeignKey("AspNetUserRoles", "UserId", "AspNetUsers");
+            DropForeignKey("AspNetUserLogins", "UserId", "AspNetUsers");
+            DropForeignKey("AspNetUserClaims", "UserId", "AspNetUsers");
+            DropForeignKey("AspNetUserRoles", "RoleId", "AspNetRoles");
+            DropIndex("AspNetUserLogins", new[] { "UserId" });
+            DropIndex("AspNetUserClaims", new[] { "UserId" });
+            DropIndex("AspNetUsers", "UserNameIndex");
+            DropIndex("AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("AspNetUserRoles", new[] { "UserId" });
+            DropIndex("AspNetRoles", "RoleNameIndex");
+            DropTable("AspNetUserLogins");
+            DropTable("AspNetUserClaims");
+            DropTable("AspNetUsers");
+            DropTable("AspNetUserRoles");
+            DropTable("AspNetRoles");
         }
     }
 }

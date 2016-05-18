@@ -19,52 +19,7 @@ namespace COMP4900_SOCE_WebApp.Migrations.SensorMigrations
 
         protected override void Seed(SensorDataModel.Models.SensorContext context)
         {
-            context.hpws.AddOrUpdate(
-                p => p.hpwsId,
-                new hpws
-                {
-                    SensorName = "W1GsTcUI",
-                    SensorValue = 1,
-                    DateTime = DateTime.ParseExact("03/14/2016 13:15", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
-                },
-                new hpws
-                {
-                    SensorName = "W1TpTcBC",
-                    SensorValue = 2,
-                    DateTime = DateTime.ParseExact("03/14/2016 13:20", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
-                },
-                new hpws
-                {
-                    SensorName = "W1SdTcUC",
-                    SensorValue = 3,
-                    DateTime = DateTime.ParseExact("03/14/2016 13:25", "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)
-                }
-            );
 
-            context.SensorProjects.AddOrUpdate(
-                  p => p.SensorProjectId,
-                  new SensorProject
-                  {
-                      SensorProjectId = 1,
-                      SensorProjectName = "hpws",
-                      SensorProjectType = "Thermocouple",
-                      SensorName = "W1GsTcUI"
-                  },
-                  new SensorProject
-                  {
-                      SensorProjectId = 2,
-                      SensorProjectName = "hpws",
-                      SensorProjectType = "Thermocouple",
-                      SensorName = "W1TpTcBC"
-                  },
-                  new SensorProject
-                  {
-                      SensorProjectId = 3,
-                      SensorProjectName = "hpws",
-                      SensorProjectType = "Thermocouple",
-                      SensorName = "W1SdTcUC"
-                  }
-                );
         }
     }
 }

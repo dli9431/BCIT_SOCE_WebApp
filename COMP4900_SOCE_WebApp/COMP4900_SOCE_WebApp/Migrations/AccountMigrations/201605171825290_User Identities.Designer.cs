@@ -7,13 +7,13 @@ namespace COMP4900_SOCE_WebApp.Migrations.AccountMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class addedinactiveuser : IMigrationMetadata
+    public sealed partial class UserIdentities : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addedinactiveuser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UserIdentities));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605121839345_added inactive user"; }
+            get { return "201605171825290_User Identities"; }
         }
         
         string IMigrationMetadata.Source
