@@ -12,12 +12,19 @@ namespace SensorDataModel.Models
         [Key]
         public int sensorId { get; set; }
 
+        [Required]
+        [Display(Name = "Sensor Name")]
         public string SensorName { get; set; }
 
+        [Display(Name = "Sensor Value")]
         public double? SensorValue { get; set; }
 
+        [Required]
+        [Display(Name = "Date Time")]
         public DateTime DateTime { get; set; }
 
+        [Required]
+        [Display(Name = "Project Name")]
         public string ProjectName { get; set; }
     }
 }

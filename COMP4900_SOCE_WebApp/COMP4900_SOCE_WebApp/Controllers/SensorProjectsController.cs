@@ -34,7 +34,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             }
 
             Project project = db.Projects.Find(id);
-            var projectName = project.Name;
+            var projectName = project.ProjectName;
 
             //Project project = db.SensorProjects.Find(id);
 

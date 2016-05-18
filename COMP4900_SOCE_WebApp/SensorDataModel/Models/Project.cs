@@ -14,33 +14,18 @@ namespace SensorDataModel.Models
         [Key]
         public int ProjectId { get; set; }
 
-        //[Required]
+        [Required]
         [Display(Name = "Project Name")]
-        public string Name { get; set; }
+        public string ProjectName { get; set; }
 
-        //[Required]
+        [Required]
         [Display(Name = "Project Description")]
-        public string Description { get; set; }
+        public string ProjectDescription { get; set; }
         
-        //[Required]
-        [Display(Name = "User")]
-        //[ForeignKey("UserName")]
+        [Required]
+        [Display(Name = "Username")]
         [UIHint("_UsersDropDown")]
         public string UserName { get; set; }
-
-        //[Required]
-        //[Display(Name = "Supervisors")]
-
-        //public string supervisorUser { get; set; }
-        //[Display(Name = "Sensor")]
-
-
-        // sensors
-        //user sets this for project
-        //[Required]
-        //[Display(Name = "Sensor Group")]
-
-        //public IEnumerable<> sensors { get; set; }
 
     }
 }
