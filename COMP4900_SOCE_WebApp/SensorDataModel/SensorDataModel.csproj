@@ -68,6 +68,7 @@
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Identity\IdentityModels.cs" />
     <Compile Include="Models\CustomGroup.cs" />
+    <Compile Include="Models\GroupProject.cs" />
     <Compile Include="Models\gvs_north.cs" />
     <Compile Include="Models\gvs_south.cs" />
     <Compile Include="Models\hpws.cs" />

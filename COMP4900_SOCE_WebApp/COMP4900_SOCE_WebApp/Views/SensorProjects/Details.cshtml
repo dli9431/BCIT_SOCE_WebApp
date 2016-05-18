@@ -1,0 +1,43 @@
+﻿@model SensorDataModel.Models.SensorProject
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SensorProject</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SensorProjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SensorProjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SensorProjectType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SensorProjectType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SensorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SensorName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SensorProjectId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

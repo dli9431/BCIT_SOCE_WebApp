@@ -37,7 +37,8 @@
             @Html.DisplayFor(model => item.UserName, new { htmlAttributes = new { @class = "form-control" } })
         </td>
         <td>
-            <input type="submit" value="Assign" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Assign"  , "Projects", new { id=item.ProjectId })'">
+            <input type="submit" value="Assign Users" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignUsersToProjects"  , "Projects", new { id=item.ProjectId })'">
+            <input type="submit" value="Assign Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignSensorsToProjects"  , "Projects", new { id=item.ProjectId })'">
             <input type="submit" value="Edit" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Edit"  , "Projects", new { id=item.ProjectId })'">
             <input type="submit" value="Remove" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Delete", "Projects", new { id=item.ProjectId })'">
         </td>
