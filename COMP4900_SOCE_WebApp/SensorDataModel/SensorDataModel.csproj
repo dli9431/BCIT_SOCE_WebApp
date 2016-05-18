@@ -68,19 +68,11 @@
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Identity\IdentityModels.cs" />
     <Compile Include="Models\CustomGroup.cs" />
-    <Compile Include="Models\GroupProject.cs" />
-    <Compile Include="Models\gvs_north.cs" />
-    <Compile Include="Models\gvs_south.cs" />
-    <Compile Include="Models\hpws.cs" />
-    <Compile Include="Models\mh_north.cs" />
-    <Compile Include="Models\hpws_rp.cs" />
-    <Compile Include="Models\mh_south.cs" />
+    <Compile Include="Models\groupProject.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\SensorContext.cs" />
     <Compile Include="Models\SensorProject.cs" />
-    <Compile Include="Models\th_ext.cs" />
-    <Compile Include="Models\th_int.cs" />
-    <Compile Include="Models\th_ps.cs" />
+    <Compile Include="Models\Sensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

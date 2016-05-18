@@ -232,18 +232,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\AccountMigrations\201605171825290_User Identities.cs" />
-    <Compile Include="Migrations\AccountMigrations\201605171825290_User Identities.Designer.cs">
-      <DependentUpon>201605171825290_User Identities.cs</DependentUpon>
+    <Compile Include="Migrations\AccountMigrations\201605182138053_User Identities.cs" />
+    <Compile Include="Migrations\AccountMigrations\201605182138053_User Identities.Designer.cs">
+      <DependentUpon>201605182138053_User Identities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AccountMigrations\Configuration.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605171823285_InitialCreate.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605171823285_InitialCreate.Designer.cs">
-      <DependentUpon>201605171823285_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\SensorMigrations\201605180016477_edited CustomGroup model and removed UserGroup model.cs" />
-    <Compile Include="Migrations\SensorMigrations\201605180016477_edited CustomGroup model and removed UserGroup model.Designer.cs">
-      <DependentUpon>201605180016477_edited CustomGroup model and removed UserGroup model.cs</DependentUpon>
+    <Compile Include="Migrations\SensorMigrations\201605182136005_InitialCreate.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605182136005_InitialCreate.Designer.cs">
+      <DependentUpon>201605182136005_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -375,14 +371,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\AccountMigrations\201605171825290_User Identities.resx">
-      <DependentUpon>201605171825290_User Identities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\AccountMigrations\201605182138053_User Identities.resx">
+      <DependentUpon>201605182138053_User Identities.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605171823285_InitialCreate.resx">
-      <DependentUpon>201605171823285_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SensorMigrations\201605180016477_edited CustomGroup model and removed UserGroup model.resx">
-      <DependentUpon>201605180016477_edited CustomGroup model and removed UserGroup model.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605182136005_InitialCreate.resx">
+      <DependentUpon>201605182136005_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
