@@ -208,11 +208,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomGroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Controllers\UserGroupsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -225,6 +226,10 @@
     <Compile Include="Migrations\SensorMigrations\201605171823285_InitialCreate.cs" />
     <Compile Include="Migrations\SensorMigrations\201605171823285_InitialCreate.Designer.cs">
       <DependentUpon>201605171823285_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\SensorMigrations\201605180016477_edited CustomGroup model and removed UserGroup model.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605180016477_edited CustomGroup model and removed UserGroup model.Designer.cs">
+      <DependentUpon>201605180016477_edited CustomGroup model and removed UserGroup model.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -307,11 +312,6 @@
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
-    <Content Include="Views\UserGroups\Create.cshtml" />
-    <Content Include="Views\UserGroups\Delete.cshtml" />
-    <Content Include="Views\UserGroups\Details.cshtml" />
-    <Content Include="Views\UserGroups\Edit.cshtml" />
-    <Content Include="Views\UserGroups\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
@@ -326,6 +326,16 @@
     <Content Include="Views\Projects\Assign.cshtml" />
     <Content Include="Views\Projects\EditorTemplates\_UsersDropDown.cshtml" />
     <Content Include="Views\Home\csv.cshtml" />
+    <Content Include="Views\Reports\Create.cshtml" />
+    <Content Include="Views\Reports\Delete.cshtml" />
+    <Content Include="Views\Reports\Details.cshtml" />
+    <Content Include="Views\Reports\Edit.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\CustomGroups\Create.cshtml" />
+    <Content Include="Views\CustomGroups\Delete.cshtml" />
+    <Content Include="Views\CustomGroups\Details.cshtml" />
+    <Content Include="Views\CustomGroups\Edit.cshtml" />
+    <Content Include="Views\CustomGroups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -350,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SensorMigrations\201605171823285_InitialCreate.resx">
       <DependentUpon>201605171823285_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605180016477_edited CustomGroup model and removed UserGroup model.resx">
+      <DependentUpon>201605180016477_edited CustomGroup model and removed UserGroup model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

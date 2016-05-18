@@ -11,9 +11,9 @@ namespace SensorDataModel.Models
     {
         [Key]
         public int CustomGroupId { get; set; }
-
+        public string StudentId { get; set; }
         public string CustomGroupName { get; set; }
+        public string ProjectName { get; set; }
         public string SensorName { get; set; }
-        
     }
 }

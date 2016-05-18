@@ -5,3 +5,6 @@ update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMig
 enable-Migrations -ContextTypeName ApplicationDbContext –ContextProject SensorDataModel -MigrationsDirectory Migrations\AccountMigrations
 add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.Configuration "User Identities"
 update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.Configuration -Verbose
+
+
+add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration "edited CustomGroup model and removed UserGroup model"

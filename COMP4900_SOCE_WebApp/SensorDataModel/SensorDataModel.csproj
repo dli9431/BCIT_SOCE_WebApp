@@ -80,7 +80,6 @@
     <Compile Include="Models\th_ext.cs" />
     <Compile Include="Models\th_int.cs" />
     <Compile Include="Models\th_ps.cs" />
-    <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -78,7 +78,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             if (loginUser.IsActive == false)
             {
-                ModelState.AddModelError(String.Empty, "That user has been deleted.");
+                ModelState.AddModelError(String.Empty, "Invalid login attempt.");
                 return View(model);
             }
 

@@ -10,107 +10,107 @@ using SensorDataModel.Models;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
-    public class UserGroupsController : Controller
+    public class ReportsController : Controller
     {
         private SensorContext db = new SensorContext();
 
-        // GET: UserGroups
+        // GET: Reports
         public ActionResult Index()
         {
-            return View(db.UserGroups.ToList());
+            return View(db.SensorProjects.ToList());
         }
 
-        // GET: UserGroups/Details/5
+        // GET: Reports/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserGroup userGroup = db.UserGroups.Find(id);
-            if (userGroup == null)
+            SensorProject sensorProject = db.SensorProjects.Find(id);
+            if (sensorProject == null)
             {
                 return HttpNotFound();
             }
-            return View(userGroup);
+            return View(sensorProject);
         }
 
-        // GET: UserGroups/Create
+        // GET: Reports/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UserGroups/Create
+        // POST: Reports/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserIdIndex,StudentId,CustomGroupId")] UserGroup userGroup)
+        public ActionResult Create([Bind(Include = "SensorProjectId,SensorProjectName,SensorProjectType,SensorName")] SensorProject sensorProject)
         {
             if (ModelState.IsValid)
             {
-                db.UserGroups.Add(userGroup);
+                db.SensorProjects.Add(sensorProject);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(userGroup);
+            return View(sensorProject);
         }
 
-        // GET: UserGroups/Edit/5
+        // GET: Reports/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserGroup userGroup = db.UserGroups.Find(id);
-            if (userGroup == null)
+            SensorProject sensorProject = db.SensorProjects.Find(id);
+            if (sensorProject == null)
             {
                 return HttpNotFound();
             }
-            return View(userGroup);
+            return View(sensorProject);
         }
 
-        // POST: UserGroups/Edit/5
+        // POST: Reports/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserIdIndex,StudentId,CustomGroupId")] UserGroup userGroup)
+        public ActionResult Edit([Bind(Include = "SensorProjectId,SensorProjectName,SensorProjectType,SensorName")] SensorProject sensorProject)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(userGroup).State = EntityState.Modified;
+                db.Entry(sensorProject).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(userGroup);
+            return View(sensorProject);
         }
 
-        // GET: UserGroups/Delete/5
+        // GET: Reports/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserGroup userGroup = db.UserGroups.Find(id);
-            if (userGroup == null)
+            SensorProject sensorProject = db.SensorProjects.Find(id);
+            if (sensorProject == null)
             {
                 return HttpNotFound();
             }
-            return View(userGroup);
+            return View(sensorProject);
         }
 
-        // POST: UserGroups/Delete/5
+        // POST: Reports/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserGroup userGroup = db.UserGroups.Find(id);
-            db.UserGroups.Remove(userGroup);
+            SensorProject sensorProject = db.SensorProjects.Find(id);
+            db.SensorProjects.Remove(sensorProject);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
