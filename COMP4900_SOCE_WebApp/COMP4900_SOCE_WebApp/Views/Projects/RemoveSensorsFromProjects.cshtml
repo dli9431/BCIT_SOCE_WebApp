@@ -25,9 +25,12 @@
             @Html.DisplayFor(modelItem => item.SensorName)
         </td>
         <td>
-            <input type="submit" value="Remove" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("RemoveSensorsFromProjects"  , "Projects", new { id = item.SensorProjectId })'">
+            <input type="submit" value="Remove" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Delete", "SensorProjects", new { id = item.SensorProjectId })'">
         </td>
     </tr>
 }
 </table>
 
+<div>
+    @Html.ActionLink("Back to Project Details", "Details", "Projects", new { id = ViewBag.projectId }, null)
+</div>

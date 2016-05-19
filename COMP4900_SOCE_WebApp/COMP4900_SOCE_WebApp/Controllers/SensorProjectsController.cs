@@ -16,6 +16,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         private SensorContext db = new SensorContext();
 
         // GET: SensorProjects
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> Index()
         {
             return View(await db.SensorProjects.ToListAsync());
@@ -23,9 +24,10 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
         //******************************************************************************
 
-        
+
 
         // GET: Projects/AssignUsersToSensors/5
+        [Authorize(Roles = "Admin, Supervisor")]
         public ActionResult AssignSensorsToProjects(int? id)
         {
             if (id == null)
@@ -50,6 +52,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Supervisor")]
         public ActionResult AssignSensorsToProjects(Project project)
         {
             if (ModelState.IsValid)
@@ -65,8 +68,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
         //******************************************************************************
 
-    
+
         // GET: SensorProjects/Details/5
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -82,6 +86,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: SensorProjects/Create
+        [Authorize(Roles = "Admin, Supervisor")]
         public ActionResult Create()
         {
             return View();
@@ -92,6 +97,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> Create([Bind(Include = "SensorProjectId,SensorProjectName,SensorProjectType,SensorName")] SensorProject sensorProject)
         {
             if (ModelState.IsValid)
@@ -105,6 +111,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: SensorProjects/Edit/5
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,6 +131,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> Edit([Bind(Include = "SensorProjectId,SensorProjectName,SensorProjectType,SensorName")] SensorProject sensorProject)
         {
             if (ModelState.IsValid)
@@ -136,6 +144,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: SensorProjects/Delete/5
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,6 +152,17 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             SensorProject sensorProject = await db.SensorProjects.FindAsync(id);
+
+            var projectName = db.SensorProjects
+                .Where(m => m.SensorProjectId == id)
+                .Select(m => m.SensorProjectName).FirstOrDefault();
+
+            var projectId = db.Projects
+                .Where(m => m.ProjectName == projectName)
+                .Select(m => m.ProjectId).FirstOrDefault().ToString();
+
+            ViewBag.ProjectId = projectId;
+
             if (sensorProject == null)
             {
                 return HttpNotFound();
@@ -153,12 +173,21 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // POST: SensorProjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Supervisor")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            var projectName = db.SensorProjects
+                 .Where(m => m.SensorProjectId == id)
+                 .Select(m => m.SensorProjectName).FirstOrDefault();
+
+            var projectId = db.Projects
+                .Where(m => m.ProjectName == projectName)
+                .Select(m => m.ProjectId).FirstOrDefault();
+            
             SensorProject sensorProject = await db.SensorProjects.FindAsync(id);
             db.SensorProjects.Remove(sensorProject);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("RemoveSensorsFromProjects", "Projects", new { id = projectId });
         }
 
         protected override void Dispose(bool disposing)

@@ -25,7 +25,23 @@
         <dd>
             @Html.DisplayFor(model => model.ProjectDescription)
         </dd>
-        
+
+        <table class="table">
+            <tr>
+                <th>Users</th>
+                <th>Sensors</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Assign Users" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignUsersToProjects"  , "Projects", new { id=Model.ProjectId })'">
+                </td>
+                <td>
+                    <input type="submit" value="Assign Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignSensorsToProjects"  , "Projects", new { id=Model.ProjectId })'">
+                    <input type="submit" value="Remove Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("RemoveSensorsFromProjects"  , "Projects", new { id=Model.ProjectId })'">
+                </td>
+            </tr>
+        </table>
+
         <dt>
             @ViewBag.AssignedUser
         </dt>
@@ -39,7 +55,7 @@
         <dd>
             @foreach (var i in ViewBag.SensorList)
             {
-                @i<br/>
+                @i<br />
             }
         </dd>
     </dl>
