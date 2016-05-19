@@ -34,6 +34,35 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.AssignedUser = "Assigned User";
+            ViewBag.AssignedSensors = "Assigned Sensors";
+
+            var userQuery = db.Projects
+                .Where(m => m.ProjectId == id)
+                .Select(m => m.UserName).FirstOrDefault().ToString();
+            
+            //pass user assigned to project to details view
+            ViewBag.AssignedUserValue = userQuery;
+
+            //query the project name based on passed in projectId
+            var sensorQuery1 = db.Projects
+                .Where(m => m.ProjectId == id)
+                .Select(m => m.ProjectName).FirstOrDefault().ToString();
+
+            //query the list of sensors based on projectName
+            var sensorQuery2 = db.SensorProjects
+                .Where(m => m.SensorProjectName == sensorQuery1)
+                .Select(m => m.SensorName).ToList();
+            List<string> sensorList = new List<string>();
+            foreach (var q in sensorQuery2)
+            {
+                sensorList.Add(q.ToString());
+            }
+
+            //pass list of sensors assigned to project to details view
+            ViewBag.SensorList = sensorList;
+
             return View(project);
         }
 
@@ -48,7 +77,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProjectId,Name,Description")] Project project)
+        public ActionResult Create([Bind(Include = "ProjectId,ProjectName,ProjectDescription")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +109,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProjectId,Name,Description")] Project project)
+        public ActionResult Edit([Bind(Include = "ProjectId,ProjectName,ProjectDescription")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -125,10 +154,10 @@ namespace COMP4900_SOCE_WebApp.Controllers
         public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject)
         {
             if (ModelState.IsValid)
-            {
+            {       
                 db.Entry(sensorProject).State = EntityState.Added;
                 db.SaveChanges();
-                return RedirectToAction("Index", "SensorProjects");
+                return RedirectToAction("Index", "Projects");
             }
             return View(sensorProject);
         }
@@ -136,6 +165,15 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // GET: Projects/AssignUsersToProjects/5
         public ActionResult AssignUsersToProjects(int? id)
         {
+            var users = db2.Users.ToList();
+            List<string> usernames = new List<string>();
+            foreach (var user in users)
+            {
+                usernames.Add(user.UserName);
+            }
+
+            ViewBag.Users = new SelectList(usernames);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -163,6 +201,50 @@ namespace COMP4900_SOCE_WebApp.Controllers
             }
             return View(project);
         }
+
+        // GET: Projects/RemoveSensorsFromProjects
+        public ActionResult RemoveSensorsFromProjects (int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            //query for projectName
+            var projectNameQ = db.Projects
+                .Where(m => m.ProjectId == id)
+                .Select(m => m.ProjectName)
+                .FirstOrDefault();
+
+            //send projectname to remove sensors view
+            ViewBag.ProjectName = projectNameQ;
+
+            //query for sensors in project
+            var sensors = db.SensorProjects
+                .Where(m => m.SensorProjectName == projectNameQ)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            List<string> sensorList = new List<string>();
+
+            //add to list
+            foreach (var q in sensors)
+            {
+                sensorList.Add(q.ToString());
+            }
+
+            //send list of sensors to remove sensor view
+            ViewBag.SensorList = sensorList;
+
+            if (projectNameQ == null)
+            {
+                return HttpNotFound();
+            }
+            return View(db.SensorProjects
+                .Where(m => m.SensorProjectName == projectNameQ)
+                .ToList());
+        }
+
 
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)

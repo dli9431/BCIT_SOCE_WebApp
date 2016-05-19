@@ -245,6 +245,10 @@
     <Compile Include="Migrations\SensorMigrations\201605182306578_Added required for everything except sensor value, added savedreport, final db.Designer.cs">
       <DependentUpon>201605182306578_Added required for everything except sensor value, added savedreport, final db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\SensorMigrations\201605190532596_changed username in projects model to be nullable.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605190532596_changed username in projects model to be nullable.Designer.cs">
+      <DependentUpon>201605190532596_changed username in projects model to be nullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -356,6 +360,7 @@
     <Content Include="Views\SensorProjects\Edit.cshtml" />
     <Content Include="Views\SensorProjects\Index.cshtml" />
     <Content Include="Views\Projects\AssignSensorsToProjects.cshtml" />
+    <Content Include="Views\Projects\RemoveSensorsFromProjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -383,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SensorMigrations\201605182306578_Added required for everything except sensor value, added savedreport, final db.resx">
       <DependentUpon>201605182306578_Added required for everything except sensor value, added savedreport, final db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605190532596_changed username in projects model to be nullable.resx">
+      <DependentUpon>201605190532596_changed username in projects model to be nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

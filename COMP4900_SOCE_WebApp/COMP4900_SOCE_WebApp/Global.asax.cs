@@ -31,7 +31,7 @@ namespace COMP4900_SOCE_WebApp
 
         public void FindFileNames(Object stateInfo)
         {
-            string[] files = Directory.GetFiles("D:/computer/csv files/test2", "*.csv");
+            string[] files = Directory.GetFiles("D:/computer/csv file", "*.csv");
             string projectName;
 
             for (int i = 0; i < files.Length; i++)

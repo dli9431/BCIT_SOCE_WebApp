@@ -18,25 +18,25 @@
         @Html.HiddenFor(model => model.Projects.ProjectId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Projects.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Projects.ProjectName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10" id="ProjectName">
-                @Html.DisplayFor(model => model.Projects.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.Projects.Name)
+                @Html.DisplayFor(model => model.Projects.ProjectName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Projects.ProjectName)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Projects.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Projects.ProjectDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.Projects.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.Projects.Description)
+                @Html.DisplayFor(model => model.Projects.ProjectDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Projects.ProjectDescription)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.SensorProject.SensorProjectName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SensorProject.SensorProjectName, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.Name } })
+                @Html.EditorFor(model => model.SensorProject.SensorProjectName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.Name } })
                 @Html.ValidationMessageFor(model => model.SensorProject.SensorProjectName)
             </div>
         </div>
@@ -72,7 +72,7 @@
 
 <script type="text/javascript">
     //Read ProjectName from Project table, after that create Project Name to save the SensorProject table
-    var ProjectName = document.getElementById("Projects_Name").value;
+    var ProjectName = document.getElementById("Projects_ProjectName").value;
     document.getElementById("SensorProject_SensorProjectName").value = ProjectName;
 </script>
 

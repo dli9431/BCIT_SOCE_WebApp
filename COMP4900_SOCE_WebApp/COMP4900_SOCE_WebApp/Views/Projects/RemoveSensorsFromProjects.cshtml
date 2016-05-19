@@ -1,0 +1,33 @@
+﻿@*@model SensorDataModel.Models.SensorProject*@
+@model IEnumerable<SensorDataModel.Models.SensorProject>
+
+@{
+    ViewBag.Title = "RemoveSensorsFromProjects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Remove Sensors From @ViewBag.ProjectName</h2>
+<table class="table">
+    <tr>
+        <th>
+            Sensors
+        </th>
+        <th>
+            Remove Sensor
+        </th>
+    </tr>
+@*@foreach (var i in ViewBag.SensorList)*@
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SensorName)
+        </td>
+        <td>
+            <input type="submit" value="Remove" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("RemoveSensorsFromProjects"  , "Projects", new { id = item.SensorProjectId })'">
+        </td>
+    </tr>
+}
+</table>
+

@@ -22,7 +22,7 @@ namespace SensorDataModel.Models
         [Display(Name = "Project Description")]
         public string ProjectDescription { get; set; }
         
-        [Required]
+        
         [Display(Name = "Username")]
         [UIHint("_UsersDropDown")]
         public string UserName { get; set; }

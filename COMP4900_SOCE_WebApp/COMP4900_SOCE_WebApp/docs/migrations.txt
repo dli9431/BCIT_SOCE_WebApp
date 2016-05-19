@@ -2,8 +2,10 @@
 add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration "InitialCreate"
 update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration -Verbose
 
+
 enable-Migrations -ContextTypeName ApplicationDbContext –ContextProject SensorDataModel -MigrationsDirectory Migrations\AccountMigrations
 add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.Configuration "User Identities"
 update-database -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.AccountMigrations.Configuration -Verbose
 
-add-migration -ConfigurationTypeName COMP4900_SOCE_WebApp.Migrations.SensorMigrations.Configuration "Added required for everything except sensor value, added savedreport, final db"
+
+
