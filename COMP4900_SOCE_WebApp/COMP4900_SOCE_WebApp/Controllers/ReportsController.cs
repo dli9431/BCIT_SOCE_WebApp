@@ -32,8 +32,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Where(m => projectTypes.Contains(m.ProjectName))
                 .ToList();
            
-            ViewBag.ProjectName = projectName.ToString();           
-            
+            ViewBag.ProjectName = projectName.ToString();
+            ViewBag.ProjectId = id;
+             
             return View(sensorList);
         }        
     }

@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using SensorDataModel.Models;
 using COMP4900_SOCE_WebApp.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
@@ -17,10 +19,33 @@ namespace COMP4900_SOCE_WebApp.Controllers
         private ApplicationDbContext db2 = new ApplicationDbContext();
 
         // GET: Projects
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin, Supervisor, Student")]
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            //var roleStore = new RoleStore<IdentityRole>(db2);
+            var userStore = new UserStore<ApplicationUser>(db2);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            //var roleManager = new RoleManager<IdentityRole>(roleStore);
+            //gets current application UserName ex: A00111111
+            var user = userManager.FindByName(User.Identity.GetUserName());
+            
+            //gets all projects of the current user
+            var currentProjects = db.Projects
+                .Where(m => m.UserName == user.UserName)
+                .ToList();
+
+            //get the current user role id
+            var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            
+            if (currentRole == false)
+            {
+                return View(currentProjects);
+            }
+            else
+            {
+                return View(db.Projects.ToList());
+            }
+            //return View(db.Projects.ToList());
         }
 
         // GET: Projects/Details/5
@@ -37,8 +62,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.AssignedUser = "Assigned User";
-            ViewBag.AssignedSensors = "Assigned Sensors";
+            ViewBag.AssignedUser = "Project's Assigned User";
+            ViewBag.AssignedSensors = "Project's Assigned Sensors";
+            ViewBag.CustomGroups = "Project Custom Group Names";
 
             var userQuery = db.Projects
                 .Where(m => m.ProjectId == id)
@@ -64,6 +90,13 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             //pass list of sensors assigned to project to details view
             ViewBag.SensorList = sensorList;
+
+            //get + pass list of customgroups from within the project
+            var custGroup = db.CustomGroups
+                .Where(m => m.ProjectName == sensorQuery1)
+                .ToList();
+
+            ViewBag.CustomGroupValues = custGroup;
 
             return View(project);
         }

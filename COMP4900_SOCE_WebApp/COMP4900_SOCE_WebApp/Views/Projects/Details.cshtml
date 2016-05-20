@@ -30,6 +30,7 @@
             <tr>
                 <th>Users</th>
                 <th>Sensors</th>
+                <th>Custom Groups</th>
             </tr>
             <tr>
                 <td>
@@ -38,6 +39,9 @@
                 <td>
                     <input type="submit" value="Assign Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignSensorsToProjects"  , "Projects", new { id=Model.ProjectId })'">
                     <input type="submit" value="Remove Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("RemoveSensorsFromProjects"  , "Projects", new { id=Model.ProjectId })'">
+                </td>
+                <td>
+                    <input type="submit" value="Add" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Create", "CustomGroups", new { id=Model.ProjectId })'">
                 </td>
             </tr>
         </table>
@@ -48,7 +52,30 @@
         <dd>
             @ViewBag.AssignedUserValue
         </dd>
-
+        <dt>
+            @ViewBag.CustomGroups
+        </dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <td>Custom Group Name</td>
+                    <td>Sensor Name</td>
+                </tr>
+                @foreach (var item in ViewBag.CustomGroupValues)
+                {
+                    <tr>
+                        <td>
+                            @item.CustomGroupName
+                        </td>
+                        <td>
+                            @item.SensorName
+                        </td>
+                        <td>
+                            <input type="submit" value="Remove" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Delete", "CustomGroups", new { id=item.CustomGroupId})'">
+                        </td>
+                    </tr>
+                }
+            </table>
         <dt>
             @ViewBag.AssignedSensors
         </dt>

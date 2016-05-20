@@ -12,14 +12,14 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>CustomGroup</h4>
+        <h4>Custom Group</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.StudentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2", @readonly = "readonly" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StudentId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger", @readonly = "readonly" })
             </div>
         </div>
 
@@ -32,17 +32,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectName, htmlAttributes: new { @class = "control-label col-md-2", @readonly = "readonly" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger", @readonly = "readonly" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.SensorName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control" } })*@
+                @*@Html.DropDownList("", (IEnumerable<SelectListItem>)ViewBag.SensorList, new { style = "max-width: 600px;" })*@
+                @*@Html.DropDownListFor(ViewBag.ModelId, ViewBag.SensorList as IEnumerable<SelectListItem>)*@
+                
+                @Html.DropDownList("SelectedSensor", (IEnumerable<SelectListItem>)ViewBag.SensorList, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SensorName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -56,7 +60,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Project Details", "Details", "Projects", new { id = ViewBag.ProjectId }, null)
 </div>
 
 @section Scripts {

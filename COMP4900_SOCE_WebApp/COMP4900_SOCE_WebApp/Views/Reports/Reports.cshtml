@@ -6,6 +6,8 @@
 }
 
 <h2>Report for @ViewBag.ProjectName</h2>
+
+<input type="submit" value="Save" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Save", "SavedReports", new { id = ViewBag.ProjectId })'">
 <table class="table">
     <tr>
         <th>

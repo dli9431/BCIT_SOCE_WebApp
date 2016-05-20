@@ -19,6 +19,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         private ApplicationDbContext db2 = new ApplicationDbContext();
 
         // GET: CustomGroups
+        [Authorize (Roles = "Admin, Supervisor")]
         public ActionResult Index()
         {
             var userStore = new UserStore<ApplicationUser>(db2);
@@ -56,37 +57,62 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: CustomGroups/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            ViewBag.ProjectId = id;
+
+            CustomGroup cg = new CustomGroup();
+            var projectName = db.Projects
+                .Where(m => m.ProjectId == id)
+                .Select(m => m.ProjectName).FirstOrDefault();
+            cg.ProjectName = projectName;
+
+            var user = db.Projects
+                .Where(m => m.ProjectName == projectName)
+                .Select(m => m.UserName)
+                .FirstOrDefault().ToString();
+                
+            cg.UserName = user;
+
+            var sensorsInProject = db.SensorProjects
+                .Where(m => m.SensorProjectName == projectName)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            ViewBag.SensorList = new SelectList(sensorsInProject);
+
+            //ViewBag.SensorList = new SelectList(sensorsInProject, "SensorName", "SensorName");
+            return View(cg);
         }
-
-        // POST: CustomGroups/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "CustomGroupId,StudentId,CustomGroupName,ProjectName,SensorName")] CustomGroup customGroup)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.CustomGroups.Add(customGroup);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(customGroup);
-        //}
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentId,CustomGroupName,ProjectName,SensorName")] CustomGroup customGroup)
+        public ActionResult Create([Bind(Include = "UserName,CustomGroupName,ProjectName")] CustomGroup customGroup, string SelectedSensor)
         {
+            var projectId = db.Projects
+               .Where(m => m.ProjectName == customGroup.ProjectName)
+               .Select(m => m.ProjectId).FirstOrDefault();
+            ViewBag.ProjectId = projectId;
+
+            var projectName = db.Projects
+                .Where(m => m.ProjectId == projectId)
+                .Select(m => m.ProjectName)
+                .FirstOrDefault();
+
+            var sensorsInProject = db.SensorProjects
+                .Where(m => m.SensorProjectName == projectName)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            ViewBag.SensorList = new SelectList(sensorsInProject);
+
+            customGroup.SensorName = SelectedSensor;
+
             if (ModelState.IsValid)
             {
                 db.CustomGroups.Add(customGroup);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Projects", new { id = projectId });
             }
 
             return View(customGroup);
@@ -131,6 +157,19 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CustomGroup customGroup = db.CustomGroups.Find(id);
+
+            var projectName = db.CustomGroups
+                .Where(m => m.CustomGroupId == id)
+                .Select(m => m.ProjectName)
+                .FirstOrDefault().ToString();
+
+            var projectId = db.Projects
+                .Where(m => m.ProjectName == projectName)
+                .Select(m => m.ProjectId)
+                .FirstOrDefault().ToString();
+
+            ViewBag.ProjectId = projectId;
+
             if (customGroup == null)
             {
                 return HttpNotFound();
@@ -144,9 +183,24 @@ namespace COMP4900_SOCE_WebApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CustomGroup customGroup = db.CustomGroups.Find(id);
+
+            var projectName = db.CustomGroups
+                .Where(m => m.CustomGroupId == id)
+                .Select(m => m.ProjectName)
+                .FirstOrDefault().ToString();
+
+            var projectId = db.Projects
+                .Where(m => m.ProjectName == projectName)
+                .Select(m => m.ProjectId)
+                .FirstOrDefault().ToString();
+
+            ViewBag.ProjectId = projectId;
+            ViewBag.CustGroupName = customGroup.CustomGroupName;
+
             db.CustomGroups.Remove(customGroup);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return RedirectToAction("Details", "Projects", new { id = projectId});
         }
 
         protected override void Dispose(bool disposing)
