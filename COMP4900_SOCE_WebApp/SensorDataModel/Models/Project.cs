@@ -16,6 +16,7 @@ namespace SensorDataModel.Models
 
         [Required]
         [Display(Name = "Project Name")]
+        // This links with SensorProjectName
         public string ProjectName { get; set; }
 
         [Required]
