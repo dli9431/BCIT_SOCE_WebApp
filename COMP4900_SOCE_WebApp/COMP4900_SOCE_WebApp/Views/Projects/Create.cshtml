@@ -30,6 +30,13 @@
                 @Html.ValidationMessageFor(model => model.ProjectDescription, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            Assign User:
+            <div class="col-md-10">
+                @Html.DropDownList("SelectedUser", (IEnumerable<SelectListItem>)ViewBag.UserList, htmlAttributes: new { @class = "form-control" })                
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

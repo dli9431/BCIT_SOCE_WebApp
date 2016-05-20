@@ -106,10 +106,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             ViewBag.SensorList = new SelectList(sensorsInProject);
 
-            customGroup.SensorName = SelectedSensor;
-
             if (ModelState.IsValid)
             {
+                customGroup.SensorName = SelectedSensor;
                 db.CustomGroups.Add(customGroup);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Projects", new { id = projectId });

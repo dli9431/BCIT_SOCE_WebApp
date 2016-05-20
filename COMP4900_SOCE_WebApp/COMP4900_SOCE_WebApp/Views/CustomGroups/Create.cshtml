@@ -42,10 +42,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SensorName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control" } })*@
-                @*@Html.DropDownList("", (IEnumerable<SelectListItem>)ViewBag.SensorList, new { style = "max-width: 600px;" })*@
-                @*@Html.DropDownListFor(ViewBag.ModelId, ViewBag.SensorList as IEnumerable<SelectListItem>)*@
-                
                 @Html.DropDownList("SelectedSensor", (IEnumerable<SelectListItem>)ViewBag.SensorList, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SensorName, "", new { @class = "text-danger" })
             </div>

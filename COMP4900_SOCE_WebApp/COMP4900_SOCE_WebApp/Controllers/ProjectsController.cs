@@ -105,6 +105,11 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [Authorize(Roles = "Admin, Supervisor")]
         public ActionResult Create()
         {
+            var allUsers = db2.Users
+                .Select(m => m.UserName)
+                .ToList();
+            ViewBag.UserList = new SelectList(allUsers);
+
             return View();
         }
 
@@ -114,10 +119,16 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Supervisor")]
-        public ActionResult Create([Bind(Include = "ProjectId,ProjectName,ProjectDescription")] Project project)
+        public ActionResult Create([Bind(Include = "ProjectId,ProjectName,ProjectDescription")] Project project, string SelectedUser)
         {
+            var allUsers = db2.Users
+                .Select(m => m.UserName)
+                .ToList();
+            ViewBag.UserList = new SelectList(allUsers);
+
             if (ModelState.IsValid)
             {
+                project.UserName = SelectedUser;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
