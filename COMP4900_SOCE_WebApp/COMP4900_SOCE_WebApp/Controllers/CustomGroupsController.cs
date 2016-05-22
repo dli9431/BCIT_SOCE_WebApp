@@ -22,21 +22,21 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [Authorize (Roles = "Admin, Supervisor")]
         public ActionResult Index()
         {
-            var userStore = new UserStore<ApplicationUser>(db2);
-            var userManager = new UserManager<ApplicationUser>(userStore);
-            var currentUser = userManager.FindById(User.Identity.GetUserId()).UserName.ToString();
+            //var userStore = new UserStore<ApplicationUser>(db2);
+            //var userManager = new UserManager<ApplicationUser>(userStore);
+            //var currentUser = userManager.FindById(User.Identity.GetUserId()).UserName.ToString();
             
-            string passed = "TestGroup1";
-            List<string> customGroup = new List<string>();
-            var query = db.CustomGroups.Where(m => m.CustomGroupName == passed).ToList();
+            //string passed = "TestGroup1";
+            //List<string> customGroup = new List<string>();
+            //var query = db.CustomGroups.Where(m => m.CustomGroupName == passed).ToList();
                 
-            foreach (var q in query)
-            {
-                customGroup.Add(q.SensorName.ToString());
-            }
+            //foreach (var q in query)
+            //{
+            //    customGroup.Add(q.SensorName.ToString());
+            //}
 
-            ViewBag.User = currentUser;
-            ViewBag.Test = customGroup;
+            //ViewBag.User = currentUser;
+            //ViewBag.Test = customGroup;
 
             return View(db.CustomGroups.ToList());
         }
@@ -53,6 +53,20 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return HttpNotFound();
             }
+
+            //code that checks if person is allowed to check this specific report
+            var currentUser = User.Identity.GetUserName();
+            var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            var cgUser = db.CustomGroups
+                .Where(m => m.CustomGroupId == id)
+                .Select(m => m.UserName)
+                .FirstOrDefault();
+
+            if (currentUser != cgUser || currentRole)
+            {
+                return View("../Security/Unauthorized");
+            }
+
             return View(customGroup);
         }
 
@@ -81,7 +95,19 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             ViewBag.SensorList = new SelectList(sensorsInProject);
 
-            //ViewBag.SensorList = new SelectList(sensorsInProject, "SensorName", "SensorName");
+            //code that checks if person is allowed to check this specific report
+            var currentUser = User.Identity.GetUserName();
+            var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            var cgUser = db.CustomGroups
+                .Where(m => m.CustomGroupId == id)
+                .Select(m => m.UserName)
+                .FirstOrDefault();
+
+            if (currentUser != cgUser || currentRole)
+            {
+                return View("../Security/Unauthorized");
+            }
+
             return View(cg);
         }
         
@@ -129,6 +155,21 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return HttpNotFound();
             }
+
+            //code that checks if person is allowed to check this specific report
+            var currentUser = User.Identity.GetUserName();
+            var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            var cgUser = db.CustomGroups
+                .Where(m => m.CustomGroupId == id)
+                .Select(m => m.UserName)
+                .FirstOrDefault();
+
+            if (currentUser != cgUser || currentRole)
+            {
+                return View("../Security/Unauthorized");
+            }
+
+
             return View(customGroup);
         }
 
@@ -157,6 +198,11 @@ namespace COMP4900_SOCE_WebApp.Controllers
             }
             CustomGroup customGroup = db.CustomGroups.Find(id);
 
+            if (customGroup == null)
+            {
+                return HttpNotFound();
+            }
+
             var projectName = db.CustomGroups
                 .Where(m => m.CustomGroupId == id)
                 .Select(m => m.ProjectName)
@@ -169,10 +215,19 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             ViewBag.ProjectId = projectId;
 
-            if (customGroup == null)
+            //code that checks if person is allowed to check this specific report
+            var currentUser = User.Identity.GetUserName();
+            var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            var cgUser = db.CustomGroups
+                .Where(m => m.CustomGroupId == id)
+                .Select(m => m.UserName)
+                .FirstOrDefault();
+
+            if (currentUser != cgUser || currentRole)
             {
-                return HttpNotFound();
+                return View("../Security/Unauthorized");
             }
+
             return View(customGroup);
         }
 

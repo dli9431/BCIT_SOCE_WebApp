@@ -22,10 +22,10 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [Authorize(Roles = "Admin, Supervisor, Student")]
         public ActionResult Index()
         {
-            //var roleStore = new RoleStore<IdentityRole>(db2);
+            
             var userStore = new UserStore<ApplicationUser>(db2);
             var userManager = new UserManager<ApplicationUser>(userStore);
-            //var roleManager = new RoleManager<IdentityRole>(roleStore);
+            
             //gets current application UserName ex: A00111111
             var user = userManager.FindByName(User.Identity.GetUserName());
 
@@ -49,7 +49,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Projects/Details/5
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin, Supervisor, Student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -61,10 +61,6 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.AssignedUser = "Project's Assigned User";
-            ViewBag.AssignedSensors = "Project's Assigned Sensors";
-            ViewBag.CustomGroups = "Project Custom Group Names";
 
             var userQuery = db.Projects
                 .Where(m => m.ProjectId == id)
@@ -105,7 +101,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Projects/Create
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var allUsers = db2.Users
@@ -121,7 +117,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "ProjectId,ProjectName,ProjectDescription")] Project project, string SelectedUser)
         {
             var allUsers = db2.Users
@@ -141,7 +137,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Projects/Edit/5
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -161,7 +157,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "ProjectId,ProjectName,ProjectDescription")] Project project)
         {
             if (ModelState.IsValid)
@@ -174,27 +170,33 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Projects/AssignUsersToProjects/5
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AssignSensorsToProjects(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.projectId = id;
+            ViewBag.projectDesc = db.Projects
+                .Where(m => m.ProjectId == id)
+                .Select(m => m.ProjectDescription)
+                .FirstOrDefault();
 
-            GroupProject groupProject = new GroupProject();
+            var checkProject = db.Projects.Find(id);
 
-            groupProject.Projects = (from b in db.Projects
-                                     where b.ProjectId == id
-                                     select b).FirstOrDefault();
-
-            var checkProject = groupProject.Projects;
-            checkProject = db.Projects.Find(id);
+            if (checkProject == null)
+            {
+                return HttpNotFound();
+            }
+            SensorProject sensorProject = new SensorProject();
 
             //get project name based on id
             var projectName = db.Projects
                 .Where(m => m.ProjectId == id)
                 .Select(m => m.ProjectName).FirstOrDefault();
+
+            sensorProject.SensorProjectName = projectName;
 
             //make list of project types
             //faster than querying entire db for all unique project types
@@ -211,32 +213,31 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             ViewBag.ProjectList = new SelectList(types);
 
-            if (checkProject == null)
-            {
-                return HttpNotFound();
-            }
-            return View(groupProject);
+            return View(sensorProject);
         }
 
-
-        
         // POST: Projects/AssignSensorsToProjects/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject, string SelectedType)
         {
             var projectId = db.Projects
                    .Where(m => m.ProjectName == sensorProject.SensorProjectName)
                    .Select(m => m.ProjectId).FirstOrDefault();
-            
             var projectName = db.Projects
                 .Where(m => m.ProjectId == projectId)
                 .Select(m => m.ProjectName).FirstOrDefault();
             sensorProject.SensorProjectName = projectName;
-            
+            sensorProject.SensorProjectType = SelectedType;
+
+            var errors = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .Select(x => new { x.Key, x.Value.Errors })
+                .ToArray();
+
             if (ModelState.IsValid)
             {
                 db.Entry(sensorProject).State = EntityState.Added;
@@ -247,9 +248,20 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Projects/AssignUsersToProjects/5
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AssignUsersToProjects(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+
             var users = db2.Users.ToList();
             List<string> usernames = new List<string>();
             foreach (var user in users)
@@ -258,16 +270,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
             }
 
             ViewBag.Users = new SelectList(usernames);
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.ProjectId = id;
+            
+            
             return View(project);
         }
 
@@ -276,7 +281,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AssignUsersToProjects(Project project)
         {
             if (ModelState.IsValid)
@@ -289,7 +294,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         // GET: Projects/RemoveSensorsFromProjects
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult RemoveSensorsFromProjects(int? id)
         {
             ViewBag.projectId = id;
@@ -353,7 +358,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Supervisor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);

@@ -12,17 +12,14 @@ namespace SensorDataModel.Models
         [Key]
         public int SensorProjectId { get; set; }
 
-        [Required]
         [Display(Name = "Sensor Project Name")]
         // Linked with ProjectName (can be anything)
         public string SensorProjectName { get; set; }
-
-        [Required]
+        
         [Display(Name = "Sensor Project Type")]
         // This links with Sensor Model's ProjectName
         public string SensorProjectType { get; set; }
 
-        [Required]
         [Display(Name = "Sensor Name")]
         public string SensorName { get; set; }
     }

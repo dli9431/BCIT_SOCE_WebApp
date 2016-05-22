@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SensorDataModel.Models;
 using COMP4900_SOCE_WebApp.Models;
+using Microsoft.AspNet.Identity;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
@@ -19,6 +20,16 @@ namespace COMP4900_SOCE_WebApp.Controllers
         // GET: Reports
         public ActionResult Reports(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+
             var projectName = db.Projects
                 .Where(m => m.ProjectId == id)
                 .Select(m => m.ProjectName).FirstOrDefault();
@@ -43,13 +54,31 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .ToList();
 
             ViewBag.CustomGroups = custGroups;
-            
+
+            //code that checks if person is allowed to check this specific report
+            var currentUser = User.Identity.GetUserName();
+            var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            var projUser = db.Projects
+                .Where(m => m.ProjectName == projectName)
+                .Select(m => m.UserName)
+                .FirstOrDefault();
+
+            if (currentUser != projUser || currentRole)
+            {
+                return View("../Security/Unauthorized");
+            }
+
             return View(sensorList);
         }
 
         [HttpPost]
         public ActionResult FilterReports(string cgName)
         {
+            if (cgName == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             List<Sensor> selectedSensors = new List<Sensor>();
             List<Sensor> defaultSensors = new List<Sensor>();
             

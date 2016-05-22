@@ -26,40 +26,45 @@
             @Html.DisplayFor(model => model.ProjectDescription)
         </dd>
 
-        <table class="table">
-            <tr>
-                <th>Users</th>
-                <th>Sensors</th>
-                <th>Custom Groups</th>
-            </tr>
-            <tr>
-                <td>
-                    <input type="submit" value="Assign Users" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignUsersToProjects"  , "Projects", new { id=Model.ProjectId })'">
-                </td>
-                <td>
-                    <input type="submit" value="Assign Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignSensorsToProjects"  , "Projects", new { id=Model.ProjectId })'">
-                    <input type="submit" value="Remove Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("RemoveSensorsFromProjects"  , "Projects", new { id=Model.ProjectId })'">
-                </td>
-                <td>
-                    <input type="submit" value="Add" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Create", "CustomGroups", new { id=Model.ProjectId })'">
-                </td>
-            </tr>
-        </table>
+        @if (User.IsInRole("Admin"))
+        {
+            <dt>
+                Users
+            </dt>
+            <dd>
+                <input type="submit" value="Assign Users" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignUsersToProjects", "Projects", new { id = Model.ProjectId })'">
+            </dd>
+            <dt>
+                Sensors
+            </dt>
+            <dd>
+                <input type="submit" value="Assign Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("AssignSensorsToProjects", "Projects", new { id = Model.ProjectId })'">
+                <input type="submit" value="Remove Sensors" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("RemoveSensorsFromProjects", "Projects", new { id = Model.ProjectId })'">
+            </dd>
+        }
 
         <dt>
-            @ViewBag.AssignedUser
+            Assigned User
         </dt>
         <dd>
             @ViewBag.AssignedUserValue
         </dd>
+
         <dt>
-            @ViewBag.CustomGroups
+            Add Custom Group
+        </dt>
+        <dd>
+            <input type="submit" value="Add" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Create", "CustomGroups", new { id=Model.ProjectId })'">
+        </dd>
+        
+        <dt>
+            Custom Groups
         </dt>
         <dd>
             <table class="table">
                 <tr>
-                    <td>Custom Group Name</td>
-                    <td>Sensor Name</td>
+                    <td>Custom Group</td>
+                    <td>Sensor</td>
                 </tr>
                 @foreach (var item in ViewBag.CustomGroupValues)
                 {

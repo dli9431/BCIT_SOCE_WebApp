@@ -250,6 +250,11 @@
     <Compile Include="Migrations\SensorMigrations\201605190532596_changed username in projects model to be nullable.Designer.cs">
       <DependentUpon>201605190532596_changed username in projects model to be nullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\SensorMigrations\201605221938378_removed required from name\type\sensorname in sensorprojects and deleted groupprojects model.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605221939296_removed required fields in sensorprojects and deleted groupprojects model.cs" />
+    <Compile Include="Migrations\SensorMigrations\201605221939296_removed required fields in sensorprojects and deleted groupprojects model.Designer.cs">
+      <DependentUpon>201605221939296_removed required fields in sensorprojects and deleted groupprojects model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SensorMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -371,6 +376,7 @@
     <Content Include="Views\SavedReports\Edit.cshtml" />
     <Content Include="Views\SavedReports\Index.cshtml" />
     <Content Include="Views\Reports\_PartialReport.cshtml" />
+    <Content Include="Views\Security\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SensorMigrations\201605190532596_changed username in projects model to be nullable.resx">
       <DependentUpon>201605190532596_changed username in projects model to be nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\SensorMigrations\201605221939296_removed required fields in sensorprojects and deleted groupprojects model.resx">
+      <DependentUpon>201605221939296_removed required fields in sensorprojects and deleted groupprojects model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

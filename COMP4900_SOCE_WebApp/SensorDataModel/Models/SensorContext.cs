@@ -16,7 +16,7 @@ namespace SensorDataModel.Models
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<CustomGroup> CustomGroups { get; set; }
         public DbSet<SavedReport> SavedReports { get; set; }
-        //public DbSet<groupProject> GroupProjects { get; set; }
+        
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
