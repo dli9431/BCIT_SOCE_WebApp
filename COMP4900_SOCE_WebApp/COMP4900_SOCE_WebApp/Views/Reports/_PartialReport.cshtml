@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SensorDataModel.Models.Sensor>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SensorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SensorValue)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.SensorName)
+                </td>*@
+            <td>
+                @Html.DisplayFor(model => item.SensorName, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DateTime, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.SensorValue, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+        </tr>
+    }
+</table>

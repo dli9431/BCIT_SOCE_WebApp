@@ -28,7 +28,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             //var roleManager = new RoleManager<IdentityRole>(roleStore);
             //gets current application UserName ex: A00111111
             var user = userManager.FindByName(User.Identity.GetUserName());
-            
+
             //gets all projects of the current user
             var currentProjects = db.Projects
                 .Where(m => m.UserName == user.UserName)
@@ -36,7 +36,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             //get the current user role id
             var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
-            
+
             if (currentRole == false)
             {
                 return View(currentProjects);
@@ -69,7 +69,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             var userQuery = db.Projects
                 .Where(m => m.ProjectId == id)
                 .Select(m => m.UserName).FirstOrDefault().ToString();
-            
+
             //pass user assigned to project to details view
             ViewBag.AssignedUserValue = userQuery;
 
@@ -94,8 +94,11 @@ namespace COMP4900_SOCE_WebApp.Controllers
             //get + pass list of customgroups from within the project
             var custGroup = db.CustomGroups
                 .Where(m => m.ProjectName == sensorQuery1)
+                .Where(m => m.UserName == userQuery)
                 .ToList();
 
+
+            ViewBag.CustomGroupModel = new CustomGroup();
             ViewBag.CustomGroupValues = custGroup;
 
             return View(project);
@@ -188,29 +191,54 @@ namespace COMP4900_SOCE_WebApp.Controllers
             var checkProject = groupProject.Projects;
             checkProject = db.Projects.Find(id);
 
+            //get project name based on id
+            var projectName = db.Projects
+                .Where(m => m.ProjectId == id)
+                .Select(m => m.ProjectName).FirstOrDefault();
+
+            //make list of project types
+            //faster than querying entire db for all unique project types
+            List<string> types = new List<string>();
+            types.Add("hpws");
+            types.Add("hpws_rp");
+            types.Add("mh_north");
+            types.Add("mh_south");
+            types.Add("th_int");
+            types.Add("th_ext");
+            types.Add("th_ps");
+            types.Add("gvs_south");
+            types.Add("gvs_north");
+
+            ViewBag.ProjectList = new SelectList(types);
+
             if (checkProject == null)
             {
                 return HttpNotFound();
             }
             return View(groupProject);
         }
+
+
         
-
-
-        // POST: Projects/AssignUsersToProjects/5
+        // POST: Projects/AssignSensorsToProjects/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Supervisor")]
-        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject)
+        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject, string SelectedType)
         {
             var projectId = db.Projects
-                .Where(m => m.ProjectName == sensorProject.SensorProjectName)
-                .Select(m => m.ProjectId).FirstOrDefault();
-
+                   .Where(m => m.ProjectName == sensorProject.SensorProjectName)
+                   .Select(m => m.ProjectId).FirstOrDefault();
+            
+            var projectName = db.Projects
+                .Where(m => m.ProjectId == projectId)
+                .Select(m => m.ProjectName).FirstOrDefault();
+            sensorProject.SensorProjectName = projectName;
+            
             if (ModelState.IsValid)
-            {       
+            {
                 db.Entry(sensorProject).State = EntityState.Added;
                 db.SaveChanges();
                 return RedirectToAction("Details", "Projects", new { id = projectId });
@@ -262,7 +290,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
         // GET: Projects/RemoveSensorsFromProjects
         [Authorize(Roles = "Admin, Supervisor")]
-        public ActionResult RemoveSensorsFromProjects (int? id)
+        public ActionResult RemoveSensorsFromProjects(int? id)
         {
             ViewBag.projectId = id;
 
@@ -270,7 +298,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+
             //query for projectName
             var projectNameQ = db.Projects
                 .Where(m => m.ProjectId == id)

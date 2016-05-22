@@ -34,8 +34,47 @@ namespace COMP4900_SOCE_WebApp.Controllers
            
             ViewBag.ProjectName = projectName.ToString();
             ViewBag.ProjectId = id;
-             
+
+            var custGroups = db.CustomGroups
+                .Where(m => m.ProjectName == projectName)
+                .OrderBy(m => m.CustomGroupName)
+                .Select(m => m.CustomGroupName)
+                .Distinct()
+                .ToList();
+
+            ViewBag.CustomGroups = custGroups;
+            
             return View(sensorList);
-        }        
+        }
+
+        [HttpPost]
+        public ActionResult FilterReports(string cgName)
+        {
+            List<Sensor> selectedSensors = new List<Sensor>();
+            List<Sensor> defaultSensors = new List<Sensor>();
+            
+            var cgQuery = db.CustomGroups
+                .Where(m => m.CustomGroupName == cgName)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            foreach (var i in cgQuery)
+            {
+                var sQuery = db.Sensors
+                    .Where(m => m.SensorName == i)
+                    .FirstOrDefault();
+                selectedSensors.Add(sQuery);
+            }
+            
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_PartialReport", selectedSensors);
+            }
+
+            return PartialView(defaultSensors);
+            //return View(sensorList);
+        }     
+        
     }
 }
+
