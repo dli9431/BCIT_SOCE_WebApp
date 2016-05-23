@@ -11,8 +11,7 @@
 @section scripts {
     @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
-    <script type="text/javascript">
-        
+    <script type="text/javascript"> 
         $("input[name='SelectedCG']").on('change', function () {
             $.ajax({
                 url: '@Url.Action("FilterReports", "Reports")',
@@ -27,32 +26,30 @@
                     alert(xhr.responseText);
                 }
             })
-        });
-            @*.ajax({
-                type: 'POST',
-                url: '@Url.Action("FilterReports", "Reports")',
-                cache: false,
-                data: $("input[name='SelectedCG']:checked").val(),
-                success: function (data) {
-                    if (data.exists) {
-                        target.load(url, data);
-                        $("#yourDivId").load("/Home/Forms/ #" + $('#myDropDownList option:selected').val())
-
-                    }
-                    else {
-                        alert("error with post");
-                    }
-                },
-                error: function (req) {
-
-                }*@
-
+        });         
     </script>
+
+<script type="text/javascript">
+    $("#csv").click(function(){
+        $.ajax({
+                url: '@Url.Action("CsvExport", "Reports")',
+                data: { cn: $("#csv").val() },
+                type: 'POST',
+                success: function (data) {
+                    alert("Exported!");
+                },
+                error: function(xhr, status, error)
+                {
+                    alert(xhr.responseText);
+                }
+            })});
+</script>
 }
 
 <h2>Report for @ViewBag.ProjectName</h2>
 
 <input type="submit" value="Save" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Save", "SavedReports", new { id = ViewBag.ProjectId })'">
+<input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="">
 <table class="table">
     <tr>
         <th>

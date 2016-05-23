@@ -62,11 +62,14 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.UserName)
                 .FirstOrDefault();
 
-            if (currentUser != cgUser || currentRole)
+            if (!currentRole)
             {
-                return View("../Security/Unauthorized");
+                if (currentUser != cgUser)
+                {
+                    return View("../Security/Unauthorized");
+                }
             }
-
+            
             return View(customGroup);
         }
 
@@ -103,9 +106,12 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.UserName)
                 .FirstOrDefault();
 
-            if (currentUser != cgUser || currentRole)
+            if (!currentRole)
             {
-                return View("../Security/Unauthorized");
+                if (currentUser != cgUser)
+                {
+                    return View("../Security/Unauthorized");
+                }
             }
 
             return View(cg);
@@ -164,9 +170,12 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.UserName)
                 .FirstOrDefault();
 
-            if (currentUser != cgUser || currentRole)
+            if (!currentRole)
             {
-                return View("../Security/Unauthorized");
+                if (currentUser != cgUser)
+                {
+                    return View("../Security/Unauthorized");
+                }
             }
 
 
@@ -223,9 +232,12 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.UserName)
                 .FirstOrDefault();
 
-            if (currentUser != cgUser || currentRole)
+            if (!currentRole)
             {
-                return View("../Security/Unauthorized");
+                if (currentUser != cgUser)
+                {
+                    return View("../Security/Unauthorized");
+                }
             }
 
             return View(customGroup);

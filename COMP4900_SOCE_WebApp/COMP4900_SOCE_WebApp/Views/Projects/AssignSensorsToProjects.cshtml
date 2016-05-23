@@ -6,8 +6,41 @@
     ViewBag.Title = "Assign Sensors to Projects";
 }
 
-<h2>Assign Sensors to Projects</h2>
 
+@section scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#keyword").on('change', function () {
+            $.ajax({
+                url: '@Url.Action("SearchSensors", "Projects")',
+                data: { keyword: $("#keyword").val() },
+                type: 'POST',
+                success: function (data) {
+                    $('#searchResult').html(data);
+                    //$('#searchResult').show();
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            })
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.special').click(function () {
+                var value = $(this).text();
+                var input = $('#showSensor');
+                $(input).val(value);
+                //alert(value + " " + input);
+                //$("#SensorName").val($(this).attr('value'));
+            });
+        });
+    </script>
+}
+
+<h2>Assign Sensors to Projects</h2>
 
 @using (Html.BeginForm())
 {
@@ -20,7 +53,8 @@
         @Html.HiddenFor(model => model.SensorProjectId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SensorProjectName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <span class="control-label col-md-2">Project Name</span>
+            @*@Html.LabelFor(model => model.SensorProjectName, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10" id="ProjectName">
                 @Html.DisplayFor(model => model.SensorProjectName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.HiddenFor(model => model.SensorProjectName)
@@ -29,14 +63,15 @@
         </div>
 
         <div class="form-group">
-            "Project Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            <span class="control-label col-md-2">Project Description</span>
             <div class="col-md-10">
                 @ViewBag.projectDesc;
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SensorProjectType, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.SensorProjectType, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <span class="control-label col-md-2">Project Type</span>
             <div class="col-md-10">
                 @Html.DropDownList("SelectedType", (IEnumerable<SelectListItem>)ViewBag.ProjectList, htmlAttributes: new { @class = "form-control" })
                 @Html.HiddenFor(model => model.SensorProjectType)
@@ -46,11 +81,40 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SensorName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.HiddenFor(model => model.SensorName)*@
+                <div id="showSensor"></div>
             </div>
         </div>
 
-  
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>
+                            Search: @Html.TextBox("keyword", null, new { htmlattributes = new { @class = "form-control" } })
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id="searchResult">
+                    @*@Html.Action("SearchSensors", new { keyword = "" })*@
+                </tbody>
+            </table>
+        </div>
+
+        @*@using (Ajax.BeginForm("SearchSensors", options))
+            {
+                <div id="divLoading" style="color:red;width:200px;background-color:yellow;font-size:larger;display:none;position:absolute;">Loading ....</div>
+                <div>
+                    @Html.TextBox("keyword")
+                    <button type="submit">Search</button>
+                </div>
+            }*@
+
+        @*section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }*@
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

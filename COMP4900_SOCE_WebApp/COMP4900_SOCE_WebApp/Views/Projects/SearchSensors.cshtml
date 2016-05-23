@@ -1,0 +1,23 @@
+﻿
+<tr>
+    <th>
+        @Html.ActionLink("Sensor Name", "AssignSensorsToProjects", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+    </th>
+    <th>
+        @Html.ActionLink("Project Name", "AssignSensorsToProjects", new { sortOrder = ViewBag.ProjectSortParm, currentFilter = ViewBag.CurrentFilter })
+    </th>
+</tr>
+@foreach (var item in ViewBag.SensorList)
+{
+    <tr>
+        <td>
+            <div class="special">
+                @*<a href="#">@item.SensorName</a>*@
+                @Html.ActionLink((string)item.SensorName, "AssignSensorsToProject")
+            </div>
+        </td>
+        <td>
+            @item.ProjectName
+        </td>
+    </tr>
+}

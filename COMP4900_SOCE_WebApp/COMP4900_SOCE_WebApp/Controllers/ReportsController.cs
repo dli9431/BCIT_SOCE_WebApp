@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using SensorDataModel.Models;
 using COMP4900_SOCE_WebApp.Models;
 using Microsoft.AspNet.Identity;
+using System.Text;
+using System.Globalization;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
@@ -63,9 +65,12 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.UserName)
                 .FirstOrDefault();
 
-            if (currentUser != projUser || currentRole)
+            if (!currentRole)
             {
-                return View("../Security/Unauthorized");
+                if (currentUser != projUser)
+                {
+                    return View("../Security/Unauthorized");
+                }
             }
 
             return View(sensorList);
@@ -102,8 +107,66 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             return PartialView(defaultSensors);
             //return View(sensorList);
-        }     
-        
+        }
+
+        [HttpPost]
+        public ActionResult CsvExport(string cn)
+        {
+            List<double?> list = new List<double?>();
+
+            DateTime begin = DateTime.ParseExact("04/22/16 12:10", "MM/dd/yy H:mm", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact("04/22/16 12:15", "MM/dd/yy H:mm", CultureInfo.InvariantCulture);
+
+            var csv = new StringBuilder();
+
+            var snList = db.CustomGroups
+                .Where(m => m.CustomGroupName == cn)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            //var customGroupSensors = (from x in db.CustomGroups                                    
+            //                           where x.CustomGroupName == form
+            //                          select x.SensorName).ToArray();
+
+            //var distinctSensorNames = (from x in db.Sensors
+
+            //                           where begin <= x.DateTime
+            //                           where end >= x.DateTime
+            //                           select x.SensorName).Distinct().ToArray();
+
+            var distictDateTimes = (from x in db.Sensors
+                                    where begin <= x.DateTime
+                                    where end >= x.DateTime
+                                    select x.DateTime).Distinct().ToArray();
+
+            csv.Append("Sensor,");
+            csv.Append(String.Join(",", snList) + "\n");
+
+            for (int i = 0; i < distictDateTimes.Count(); i++)
+            {
+                var dateTimeTmp = distictDateTimes[i];
+
+                for (int j = 0; j < snList.Count(); j++)
+                {
+                    var headerTmp = snList[j];
+
+                    var sensorValues = (from x in db.Sensors
+                                        where x.SensorName.Contains(headerTmp)
+                                        where x.DateTime.Equals(dateTimeTmp)
+                                        select x.SensorValue).FirstOrDefault();
+
+                    list.Add(sensorValues);
+                }
+                csv.Append(dateTimeTmp.ToString("MM/dd/yy H:mm") + "," + String.Join(",", list));
+                list.Clear();
+                csv.Append("\n");
+            }
+
+            System.IO.File.WriteAllText("D:/test.csv", csv.ToString());
+
+            return View();
+        }
+
     }
 }
 

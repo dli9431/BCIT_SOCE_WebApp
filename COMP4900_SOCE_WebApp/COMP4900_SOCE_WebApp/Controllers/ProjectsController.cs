@@ -22,10 +22,10 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [Authorize(Roles = "Admin, Supervisor, Student")]
         public ActionResult Index()
         {
-            
+
             var userStore = new UserStore<ApplicationUser>(db2);
             var userManager = new UserManager<ApplicationUser>(userStore);
-            
+
             //gets current application UserName ex: A00111111
             var user = userManager.FindByName(User.Identity.GetUserName());
 
@@ -56,32 +56,36 @@ namespace COMP4900_SOCE_WebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+
+            var project = db.Projects.Find(id);
             if (project == null)
             {
                 return HttpNotFound();
             }
-
-            var userQuery = db.Projects
-                .Where(m => m.ProjectId == id)
-                .Select(m => m.UserName).FirstOrDefault().ToString();
+            var projName = project.ProjectName;
+            //var userQuery = db.Projects
+            //    .Where(m => m.ProjectId == id)
+            //    .Select(m => m.UserName).FirstOrDefault().ToString();
 
             //pass user assigned to project to details view
-            ViewBag.AssignedUserValue = userQuery;
+            ViewBag.AssignedUserValue = project.UserName;
 
             //query the project name based on passed in projectId
-            var sensorQuery1 = db.Projects
-                .Where(m => m.ProjectId == id)
-                .Select(m => m.ProjectName).FirstOrDefault().ToString();
+            //var sensorQuery1 = db.Projects
+            //    .Where(m => m.ProjectId == id)
+            //    .Select(m => m.ProjectName).FirstOrDefault().ToString();
 
             //query the list of sensors based on projectName
             var sensorQuery2 = db.SensorProjects
-                .Where(m => m.SensorProjectName == sensorQuery1)
-                .Select(m => m.SensorName).ToList();
+                .Where(m => m.SensorProjectName == projName)
+                .Select(m => m.SensorName)
+                .ToList();
+
             List<string> sensorList = new List<string>();
+
             foreach (var q in sensorQuery2)
             {
-                sensorList.Add(q.ToString());
+                sensorList.Add(q);
             }
 
             //pass list of sensors assigned to project to details view
@@ -89,8 +93,8 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             //get + pass list of customgroups from within the project
             var custGroup = db.CustomGroups
-                .Where(m => m.ProjectName == sensorQuery1)
-                .Where(m => m.UserName == userQuery)
+                .Where(m => m.ProjectName == projName)
+                .Where(m => m.UserName == project.UserName)
                 .ToList();
 
 
@@ -169,10 +173,49 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return View(project);
         }
 
+        [HttpPost]
+        public PartialViewResult SearchSensors(string keyword)
+        {
+            // System.Threading.Thread.Sleep(2000);
+            var sensors = from s in db.Sensors
+                          select s;
+            var data = db.Sensors.Where(f => f.SensorName.Contains(keyword)).ToList();
+            ViewBag.SensorList = data;
+            return PartialView(sensors);
+        }
+
         // GET: Projects/AssignUsersToProjects/5
         [Authorize(Roles = "Admin")]
-        public ActionResult AssignSensorsToProjects(int? id)
+        public ActionResult AssignSensorsToProjects(int? id, string sortOrder, string searchString)
         {
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.ProjectSortParm = sortOrder == "ProjectName" ? "project_desc" : "ProjectName";
+            var sensors = from s in db.Sensors
+                          select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    sensors = sensors.OrderByDescending(s => s.SensorName);
+                    break;
+                case "project_desc":
+                    sensors = sensors.OrderByDescending(s => s.ProjectName);
+                    break;
+                case "ProjectName":
+                    sensors = sensors.OrderBy(s => s.ProjectName);
+                    break;
+                default:
+                    sensors = sensors.OrderBy(s => s.SensorName);
+                    break;
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                sensors = sensors.Where(s => s.SensorName.Contains(searchString));
+            }
+
+            //return View(students.ToList());
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -212,8 +255,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
             types.Add("gvs_north");
 
             ViewBag.ProjectList = new SelectList(types);
-
+            ViewBag.SensorList = sensors.ToList();
             return View(sensorProject);
+            //return View(sensors.ToList());
         }
 
         // POST: Projects/AssignSensorsToProjects/5
@@ -222,7 +266,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject, string SelectedType)
+        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject, string SelectedType, string SelectedName)
         {
             var projectId = db.Projects
                    .Where(m => m.ProjectName == sensorProject.SensorProjectName)
@@ -232,11 +276,12 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.ProjectName).FirstOrDefault();
             sensorProject.SensorProjectName = projectName;
             sensorProject.SensorProjectType = SelectedType;
+            sensorProject.SensorName = SelectedName;
 
-            var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
-                .ToArray();
+            //var errors = ModelState
+            //    .Where(x => x.Value.Errors.Count > 0)
+            //    .Select(x => new { x.Key, x.Value.Errors })
+            //    .ToArray();
 
             if (ModelState.IsValid)
             {
@@ -271,8 +316,8 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             ViewBag.Users = new SelectList(usernames);
             ViewBag.ProjectId = id;
-            
-            
+
+
             return View(project);
         }
 
@@ -324,7 +369,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
             //add to list
             foreach (var q in sensors)
             {
-                sensorList.Add(q.ToString());
+                sensorList.Add(q);
             }
 
             //send list of sensors to remove sensor view

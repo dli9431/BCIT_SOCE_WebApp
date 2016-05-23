@@ -385,6 +385,7 @@
     <Content Include="Views\Security\Unauthorized.cshtml" />
     <Content Include="Views\Charts\Index.cshtml" />
     <Content Include="Views\Charts\DateTime.cshtml" />
+    <Content Include="Views\Projects\SearchSensors.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
