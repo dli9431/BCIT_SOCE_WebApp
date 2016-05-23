@@ -1,11 +1,7 @@
-﻿@*@model SensorDataModel.Models.GroupProject*@
-
-@model SensorDataModel.Models.SensorProject
-
+﻿@model SensorDataModel.Models.SensorProject
 @{
     ViewBag.Title = "Assign Sensors to Projects";
 }
-
 
 @section scripts {
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -21,36 +17,22 @@
                     //$('#searchResult').show();
                 },
                 error: function (xhr, status, error) {
-                    alert(xhr.responseText);
+                    //alert(xhr.responseText);
                 }
             })
         });
-    </script>
-
-    <script type="text/javascript">
-        $(function () {
-            $('.special').click(function () {
-                var msg = "test";
-                alert(msg);
-                //var value = $(this).text();
-                //var input = $('#showSensor');
-                //$(input).val(value);
-                //alert(value + " " + input);
-                //$("#SensorName").val($(this).attr('value'));
-            });
-        });
-    </script>
+</script>
 }
 
 <h2>Assign Sensors to Projects</h2>
 
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
-        <h4>Project</h4>
         <hr />
+        @ViewBag.Duplicates
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.SensorProjectId)
 
@@ -67,7 +49,7 @@
         <div class="form-group">
             <span class="control-label col-md-2">Project Description</span>
             <div class="col-md-10">
-                @ViewBag.projectDesc;
+                @ViewBag.projectDesc
             </div>
         </div>
 
@@ -83,18 +65,18 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SensorName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.HiddenFor(model => model.SensorName)*@
-                <div id="showSensor"></div>
+                @Html.EditorFor(model => model.SensorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"  } })
+                @*@Html.HiddenFor(model => model.SensorName)
+                    <div id="showSensor"></div>*@
             </div>
         </div>
 
-        <div>
+        <div class="form-group">
             <table class="table">
                 <thead>
                     <tr>
                         <td>
-                            Search: @Html.TextBox("keyword", null, new { htmlattributes = new { @class = "form-control" } })
+                            Search: @Html.TextBox("keyword", null, new { htmlattributes = new { @class = "form-control"} })
                         </td>
                     </tr>
                 </thead>
@@ -103,19 +85,6 @@
                 </tbody>
             </table>
         </div>
-
-        @*@using (Ajax.BeginForm("SearchSensors", options))
-            {
-                <div id="divLoading" style="color:red;width:200px;background-color:yellow;font-size:larger;display:none;position:absolute;">Loading ....</div>
-                <div>
-                    @Html.TextBox("keyword")
-                    <button type="submit">Search</button>
-                </div>
-            }*@
-
-        @*section Scripts {
-                @Scripts.Render("~/bundles/jqueryval")
-            }*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -387,6 +387,8 @@
     <Content Include="Views\Charts\DateTime.cshtml" />
     <Content Include="Views\Projects\SearchSensors.cshtml" />
     <Content Include="Views\Reports\Download.cshtml" />
+    <Content Include="Views\Projects\AssignGroup.cshtml" />
+    <Content Include="Views\Projects\RemoveGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

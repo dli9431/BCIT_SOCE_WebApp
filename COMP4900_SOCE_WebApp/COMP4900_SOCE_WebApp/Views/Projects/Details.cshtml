@@ -38,8 +38,10 @@
                 Sensors
             </dt>
             <dd>
-                <input type="submit" value="Assign Sensors" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AssignSensorsToProjects", "Projects", new { id = Model.ProjectId })'">
-                <input type="submit" value="Remove Sensors" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("RemoveSensorsFromProjects", "Projects", new { id = Model.ProjectId })'">
+                <input type="submit" value="Assign Single" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AssignSensorsToProjects", "Projects", new { id = Model.ProjectId })'">
+                <input type="submit" value="Remove Single" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("RemoveSensorsFromProjects", "Projects", new { id = Model.ProjectId })'">
+                <input type="submit" value="Assign Group" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("AssignGroup", new { id = Model.ProjectId })'">
+                <input type="submit" value="Remove Group" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("RemoveGroup", new { id = Model.ProjectId })'">
             </dd>
         }
 
@@ -82,7 +84,7 @@
                 }
             </table>
         <dt>
-            @ViewBag.AssignedSensors
+            Assigned Sensors
         </dt>
         <dd>
             @foreach (var i in ViewBag.SensorList)

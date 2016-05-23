@@ -1,0 +1,43 @@
+﻿@model SensorDataModel.Models.SensorProject
+
+@{
+    ViewBag.Title = "AssignGroup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        //$("#add").click(function () {
+
+        //console.log($("input[name='SelectedType']:checked").val());
+
+        $("input[name='SelectedType']").on('change', function () {
+            var pType = $("input[name='SelectedType']:checked").val();
+            var pId = @Html.Raw(ViewBag.projectId);
+            $.ajax({
+                url: '@Url.Action("ConfirmGroup", "Projects")',
+                data: { id: pId, projType: pType },
+                type: 'POST',
+                success: function (data) {
+                    alert("added " + pType);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            })
+        });
+    </script>
+}
+
+<h2>Assign Group of Sensors</h2>
+@ViewBag.Duplicates
+@foreach (var i in ViewBag.ProjectTypes)
+{
+    string val = i;
+    @Html.RadioButton("SelectedType", val)
+    <span>@val</span>
+}
+<div>
+    @Html.ActionLink("Back to Project Details", "Details", "Projects", new { id = ViewBag.projectId }, null)
+</div>
+
+

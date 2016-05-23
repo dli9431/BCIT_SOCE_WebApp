@@ -27,6 +27,7 @@ namespace COMP4900_SOCE_WebApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            
         }
 
         public void FindFileNames(Object stateInfo)

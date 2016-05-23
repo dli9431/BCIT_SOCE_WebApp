@@ -10,6 +10,7 @@ using SensorDataModel.Models;
 using COMP4900_SOCE_WebApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
@@ -180,19 +181,21 @@ namespace COMP4900_SOCE_WebApp.Controllers
             var sensors = from s in db.Sensors
                           select s;
             var data = db.Sensors.Where(f => f.SensorName.Contains(keyword)).ToList();
+
             ViewBag.SensorList = data;
             return PartialView(sensors);
         }
 
         // GET: Projects/AssignUsersToProjects/5
         [Authorize(Roles = "Admin")]
-        public ActionResult AssignSensorsToProjects(int? id, string sortOrder, string searchString)
+        public ActionResult AssignSensorsToProjects(int? id, string sortOrder)
         {
-
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.ProjectSortParm = sortOrder == "ProjectName" ? "project_desc" : "ProjectName";
-            var sensors = from s in db.Sensors
-                          select s;
+
+            var sensors = (from s in db.Sensors
+                           select s).Take(25);
             switch (sortOrder)
             {
                 case "name_desc":
@@ -207,11 +210,6 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 default:
                     sensors = sensors.OrderBy(s => s.SensorName);
                     break;
-            }
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                sensors = sensors.Where(s => s.SensorName.Contains(searchString));
             }
 
             //return View(students.ToList());
@@ -260,28 +258,228 @@ namespace COMP4900_SOCE_WebApp.Controllers
             //return View(sensors.ToList());
         }
 
+        // GET Projects/AssignGroup
+        [Authorize(Roles = "Admin")]
+        public ActionResult AssignGroup(int id)
+        {
+            var project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            var projName = project.ProjectName;
+            ViewBag.projectId = id;
+
+            List<string> types = new List<string>();
+            types.Add("hpws");
+            types.Add("hpws_rp");
+            types.Add("mh_north");
+            types.Add("mh_south");
+            types.Add("th_int");
+            types.Add("th_ext");
+            types.Add("th_ps");
+            types.Add("gvs_south");
+            types.Add("gvs_north");
+
+            ViewBag.ProjectTypes = types;
+            SensorProject sp = new SensorProject();
+            sp.SensorProjectId = id;
+            sp.SensorProjectName = projName;
+
+            return View(sp);
+        }
+
+
+        // POST: Projects/AssignGroup
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult ConfirmGroup(int id, string projType)
+        {
+            List<string> types = new List<string>();
+            types.Add("hpws");
+            types.Add("hpws_rp");
+            types.Add("mh_north");
+            types.Add("mh_south");
+            types.Add("th_int");
+            types.Add("th_ext");
+            types.Add("th_ps");
+            types.Add("gvs_south");
+            types.Add("gvs_north");
+
+            ViewBag.ProjectTypes = types;
+
+            var project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            var projName = project.ProjectName;
+            var sensors = db.Sensors
+                .Where(m => m.ProjectName == projType)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            if (sensors == null)
+            {
+                return HttpNotFound();
+            }
+
+            var checkExisting = db.SensorProjects
+                .Where(m => m.SensorProjectName == projName)
+                .Select(m => m.SensorName)
+                .ToList();
+            foreach (var i in sensors)
+            {
+                if (!checkExisting.Contains(i))
+                {
+                    SensorProject sp = new SensorProject();
+                    sp.SensorProjectName = projName;
+                    sp.SensorProjectType = projType;
+                    sp.SensorName = i;
+
+                    db.Entry(sp).State = EntityState.Added;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.Duplicates = "Cannot assign duplicates to project";
+                    return RedirectToAction("AssignGroup", "Projects", new { id = id });
+                }
+
+            }
+            return RedirectToAction("Details", "Projects", new {id = id});
+        }
+
+        // GET Projects/RemoveGroup
+        [Authorize(Roles = "Admin")]
+        public ActionResult RemoveGroup(int id)
+        {
+            var project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            var projName = project.ProjectName;
+            ViewBag.projectId = id;
+
+            List<string> types = new List<string>();
+            types.Add("hpws");
+            types.Add("hpws_rp");
+            types.Add("mh_north");
+            types.Add("mh_south");
+            types.Add("th_int");
+            types.Add("th_ext");
+            types.Add("th_ps");
+            types.Add("gvs_south");
+            types.Add("gvs_north");
+
+            ViewBag.ProjectTypes = types;
+            SensorProject sp = new SensorProject();
+            //sp.SensorProjectId = id;
+            //sp.SensorProjectName = projName;
+
+            return View(sp);
+        }
+
+
+        // POST: Projects/ConfirmRemove
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult ConfirmRemove(int id, string projType)
+        {
+            List<string> types = new List<string>();
+            types.Add("hpws");
+            types.Add("hpws_rp");
+            types.Add("mh_north");
+            types.Add("mh_south");
+            types.Add("th_int");
+            types.Add("th_ext");
+            types.Add("th_ps");
+            types.Add("gvs_south");
+            types.Add("gvs_north");
+
+            ViewBag.ProjectTypes = types;
+
+            var project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            var projName = project.ProjectName;
+            var sensors = db.Sensors
+                .Where(m => m.ProjectName == projType)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            if (sensors == null)
+            {
+                return HttpNotFound();
+            }
+
+            var checkExisting = db.SensorProjects
+                .Where(m => m.SensorProjectName == projName)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            foreach (var i in sensors)
+            {
+                if (checkExisting.Contains(i))
+                {
+                    var find = db.SensorProjects
+                        .Where(m => m.SensorName == i)
+                        .FirstOrDefault();
+                    db.SensorProjects.Remove(find);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Details", "Projects", new { id = id });
+        }
+
         // POST: Projects/AssignSensorsToProjects/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject, string SelectedType, string SelectedName)
+        public ActionResult AssignSensorsToProjects([Bind(Include = "SensorProjectName, SensorProjectType, SensorName")] SensorProject sensorProject, string SelectedType)
         {
+            List<string> types = new List<string>();
+            types.Add("hpws");
+            types.Add("hpws_rp");
+            types.Add("mh_north");
+            types.Add("mh_south");
+            types.Add("th_int");
+            types.Add("th_ext");
+            types.Add("th_ps");
+            types.Add("gvs_south");
+            types.Add("gvs_north");
+
+            ViewBag.ProjectList = new SelectList(types);
+
             var projectId = db.Projects
                    .Where(m => m.ProjectName == sensorProject.SensorProjectName)
                    .Select(m => m.ProjectId).FirstOrDefault();
+
+            ViewBag.projectDesc = db.Projects
+                .Where(m => m.ProjectId == projectId)
+                .Select(m => m.ProjectDescription)
+                .FirstOrDefault();
+
             var projectName = db.Projects
                 .Where(m => m.ProjectId == projectId)
                 .Select(m => m.ProjectName).FirstOrDefault();
             sensorProject.SensorProjectName = projectName;
             sensorProject.SensorProjectType = SelectedType;
-            sensorProject.SensorName = SelectedName;
 
-            //var errors = ModelState
-            //    .Where(x => x.Value.Errors.Count > 0)
-            //    .Select(x => new { x.Key, x.Value.Errors })
-            //    .ToArray();
+            var checkExisting = db.SensorProjects
+                .Where(m => m.SensorName == sensorProject.SensorName)
+                .FirstOrDefault();
+
+            if (checkExisting != null)
+            {
+                ViewBag.Duplicates = "You have already added that sensor to the project";
+                return View(sensorProject);
+            }
 
             if (ModelState.IsValid)
             {

@@ -1,23 +1,29 @@
-﻿
-<tr>
-    <th>
-        @Html.ActionLink("Sensor Name", "AssignSensorsToProjects", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-    </th>
-    <th>
-        @Html.ActionLink("Project Name", "AssignSensorsToProjects", new { sortOrder = ViewBag.ProjectSortParm, currentFilter = ViewBag.CurrentFilter })
-    </th>
-</tr>
-@foreach (var item in ViewBag.SensorList)
-{
+﻿<script type="text/javascript">
+    $(document).on("click", ".sName", (function (e) {
+        var txt = $(this).text();
+        var value = $('#SensorName').val(txt);
+        console.log(txt);
+        console.log(value);
+    }));
+</script>
+<table class="table">
     <tr>
-        <td>
-            <div class="special">
-                @*<a href="#">@item.SensorName</a>*@
-                @Html.ActionLink((string)item.SensorName, "AssignSensorsToProject")
-            </div>
-        </td>
-        <td>
-            @item.ProjectName
-        </td>
+        <th>
+            @Html.ActionLink("Sensor Name", "AssignSensorsToProjects", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Project Name", "AssignSensorsToProjects", new { sortOrder = ViewBag.ProjectSortParm })
+        </th>
     </tr>
-}
+    @foreach (var item in ViewBag.SensorList)
+    {
+        <tr>
+            <td>
+                <a href="#" class="sName">@item.SensorName</a>
+            </td>
+            <td>
+                @item.ProjectName
+            </td>
+        </tr>
+    }
+</table>
