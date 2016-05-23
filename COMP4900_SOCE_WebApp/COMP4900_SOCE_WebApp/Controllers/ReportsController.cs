@@ -110,7 +110,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult CsvExport(string cn)
+        public ActionResult ExportReports (string cn)
         {
             List<double?> list = new List<double?>();
 
@@ -162,9 +162,13 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 csv.Append("\n");
             }
 
-            System.IO.File.WriteAllText("D:/test.csv", csv.ToString());
-
-            return View();
+            Random rng = new Random();
+            int fileNum = rng.Next();
+            string fileName = "D:/test" + fileNum + ".csv";
+            //System.IO.File.WriteAllText("D:/test.csv", csv.ToString());
+            System.IO.File.WriteAllText(fileName, csv.ToString());
+            //return View();
+            return View("Download");
         }
 
     }

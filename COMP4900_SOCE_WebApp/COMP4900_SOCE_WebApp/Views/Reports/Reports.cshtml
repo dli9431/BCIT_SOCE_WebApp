@@ -30,10 +30,10 @@
     </script>
 
 <script type="text/javascript">
-    $("#csv").click(function(){
+    $("#csv").click(function () {
         $.ajax({
-                url: '@Url.Action("CsvExport", "Reports")',
-                data: { cn: $("#csv").val() },
+                url: '@Url.Action("ExportReports", "Reports")',
+                data: { cn: $("input[name='SelectedCG']:checked").val() },
                 type: 'POST',
                 success: function (data) {
                     alert("Exported!");
