@@ -9,20 +9,21 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Net;
 using System.Data.Entity;
 using COMP4900_SOCE_WebApp.Models;
-using Microsoft.AspNet.Identity.Owin;
+using SensorDataModel.Models;
 using System.Threading.Tasks;
 using System.Collections;
 using SensorDataModel.Extensions;
 using System.Diagnostics;
+using System.Data.Entity.Core;
+using System.Data.Entity.Infrastructure;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
     public class UsersController : Controller
     {
         //public UserManager<ApplicationUser> UserManager { get; private set; }
-
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         //Get: Roles
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
@@ -66,7 +67,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create([Bind(Include = "UserName,Email,EmailConfirmed,fName,lName,PasswordHash,LockoutEnabled,AccessFailedCount")] ApplicationUser user, string roleName)
+        public ActionResult Create([Bind(Include = "UserName,Email,fName,lName,PasswordHash")] ApplicationUser user, string roleName)
         {
             var roles = db.Roles.ToList();
             List<string> roleList = new List<string>();
@@ -75,7 +76,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 roleList.Add(role.Name);
             }
             ViewBag.RoleDropdownlist = new SelectList(roleList);
-            
+
             if (user.PasswordHash != null)
             {
                 if (user.PasswordHash.Length < 6)
@@ -90,36 +91,28 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 return View(user);
             }
 
-            
-            
-
             if (ModelState.IsValid)
             {
-                //ArrayList rolesList = new ArrayList();
-                //rolesList.Add("Student");
-                //rolesList.Add("Supervisor");
-                //rolesList.Add("Admin");
-
                 var roleStore = new RoleStore<IdentityRole>(db);
                 var userStore = new UserStore<ApplicationUser>(db);
                 var userManager = new UserManager<ApplicationUser>(userStore);
-
                 var newUserMake = userManager.FindByName(user.UserName);
+                //var checkUser = db.Users.Find(user.UserName);
                 if (newUserMake == null)
                 {
                     var newUser = new ApplicationUser
                     {
-                        UserName = user.UserName,
+                        UserName = user.UserName.ToUpper(),
                         Email = user.Email,
-                        EmailConfirmed = user.EmailConfirmed,
                         fName = user.fName,
                         lName = user.lName,
                         //PasswordHash = user.PasswordHash,
-                        LockoutEnabled = false,
-                        SecurityStamp = Guid.NewGuid().ToString(),
-                        AccessFailedCount = 1,
+                        //LockoutEnabled = false,
+                        //SecurityStamp = Guid.NewGuid().ToString(),
+                        //AccessFailedCount = 1,
                         IsActive = true
                     };
+                    
                     var result = userManager.Create(newUser, user.PasswordHash);
                     if (result.Succeeded)
                     {
@@ -133,7 +126,6 @@ namespace COMP4900_SOCE_WebApp.Controllers
                     //db.Users.Add(newUser);
                     //db.Users.Add(newUser);
                     db.SaveChanges();
-
                     return RedirectToAction("Index");
                 }
             }
@@ -163,13 +155,68 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(ApplicationUser user)
+        public ActionResult Edit([Bind(Include = "UserName,Email,fName,lName,PasswordHash")] ApplicationUser user, bool isActive)
         {
             if (ModelState.IsValid)
             {
+                using (var contxt = new ApplicationDbContext())
+                {
+                    bool saved;
+                    var edit = contxt.Users
+                        .Where(m => m.UserName == user.UserName)
+                        .FirstOrDefault();
+                    edit.fName = user.fName;
+                    edit.lName = user.lName;
+                    edit.IsActive = isActive;
+                    var hash = new PasswordHasher();
+                    edit.PasswordHash = hash.HashPassword(user.PasswordHash);
+                    edit.Email = user.Email;
+                    edit.UserName = user.UserName;
+                    do
+                    {
+                        saved = false;
+                        try
+                        {
+                            //db.Users.Add(user);
+                            //contxt.Entry(user).State = EntityState.Modified;
+                            contxt.SaveChanges();
+                        }
+                        catch (DbUpdateConcurrencyException ex)
+                        {
+                            saved = true;
+                            var entries = ex.Entries.Single();
+                            entries.OriginalValues.SetValues(entries.GetDatabaseValues());
+                            //entries.OriginalValues.SetValues(entries.GetDatabaseValues());
+                        }
+                    } while (saved);
+                }
+
+
+
+
+                //db.Users.Attach(user);
+                //user.IsActive = isActive;
+                //db.Entry(user).State = EntityState.Modified;
+                //ctx.Entry(user).Property(i => i.UserName).IsModified = true;
+                //ctx.Entry(user).Property(i => i.Email).IsModified = true;
+                //ctx.Entry(user).Property(i => i.fName).IsModified = true;
+                //ctx.Entry(user).Property(i => i.lName).IsModified = true;
+                //ctx.Entry(user).Property(i => i.PasswordHash).IsModified = true;
+                //ctx.Entry(user).Property(i => i.IsActive).IsModified = true;
+                //db.SaveChanges();
+
+
+
                 //ApplicationUser u = UserManager.FindById(user.id);
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(user).State = EntityState.Modified;
+                //db.Entry(user).Property(i => i.UserName).IsModified = true;
+                //db.Entry(user).Property(i => i.Email).IsModified = true;
+                //db.Entry(user).Property(i => i.fName).IsModified = true;
+                //db.Entry(user).Property(i => i.lName).IsModified = true;
+                //db.Entry(user).Property(i => i.PasswordHash).IsModified = true;
+                //db.Entry(user).Property(i => i.IsActive).IsModified = true;
+                //db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -190,7 +237,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //var user = db.Users.Find(id);
-            
+
             return View(user);
         }
 

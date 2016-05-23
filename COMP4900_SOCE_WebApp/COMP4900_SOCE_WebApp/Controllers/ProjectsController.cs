@@ -10,6 +10,7 @@ using SensorDataModel.Models;
 using COMP4900_SOCE_WebApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using COMP4900_SOCE_WebApp.Controllers;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
