@@ -8,9 +8,10 @@
 }
 
 <h2>Index</h2>
-
-@Html.ActionLink("Manage User Role", "ManageUserRoles")
-@Html.ActionLink("Add New User", "Create")
+<input type="submit" value="Manage User Roles" class="btn btn - info - outline" onclick="location.href='@Url.Action("ManageUserRoles", "Users")'">
+<input type="submit" value="Add New User" class="btn btn-success - outline" onclick="location.href='@Url.Action("Create", "Users")'">
+@*@Html.ActionLink("Manage User Role", "ManageUserRoles", null, new { @class = "btn btn - info - outline" })
+@Html.ActionLink("Add New User", "Create", null, new { @class = "btn btn - success - outline" })*@
 
 
 <table class="table">

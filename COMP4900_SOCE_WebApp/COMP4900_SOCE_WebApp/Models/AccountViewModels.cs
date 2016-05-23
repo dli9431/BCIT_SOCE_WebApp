@@ -51,7 +51,7 @@ namespace COMP4900_SOCE_WebApp.Models
         [Required]
         [Display(Name = "Username")]
         [StringLength(9, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 9)]
-        [RegularExpression("[aA][0-9]{8}", ErrorMessage = "Must be A12345678 or a12345678 Form")]
+        [RegularExpression("[A][0-9]{8}", ErrorMessage = "Must be A12345678 Form")]
         public string UserName { get; set; }
 
         [Required]
@@ -69,7 +69,7 @@ namespace COMP4900_SOCE_WebApp.Models
         [Required]
         [Display(Name = "Username")]
         [StringLength(9, ErrorMessage = "The {0} must be {2} characters long.", MinimumLength = 9)]
-        [RegularExpression("[aA][0-9]{8}", ErrorMessage = "Must be A12345678 or a12345678 Form")]
+        [RegularExpression("[A][0-9]{8}", ErrorMessage = "Must be A12345678 Form")]
         public string UserName { get; set; }
 
         [Required]

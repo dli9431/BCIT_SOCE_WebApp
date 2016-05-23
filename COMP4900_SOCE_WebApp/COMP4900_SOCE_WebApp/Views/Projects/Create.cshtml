@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create New Project</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Project</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -32,7 +31,7 @@
         </div>
         
         <div class="form-group">
-            Assign User:
+            <div class="control-label col-md-2"><strong>Assign User:</strong></div>
             <div class="col-md-10">
                 @Html.DropDownList("SelectedUser", (IEnumerable<SelectListItem>)ViewBag.UserList, htmlAttributes: new { @class = "form-control" })                
             </div>

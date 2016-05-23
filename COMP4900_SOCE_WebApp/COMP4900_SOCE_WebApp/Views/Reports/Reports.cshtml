@@ -5,13 +5,13 @@
 @{
     ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
 }
 
 @section scripts {
     @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         $("input[name='SelectedCG']").on('change', function () {
             $.ajax({
                 url: '@Url.Action("FilterReports", "Reports")',
@@ -21,29 +21,28 @@
                     $('#reportTable').html(data);
                     $('#reportTable').show();
                 },
-                error: function(xhr, status, error)
-                {
+                error: function (xhr, status, error) {
                     alert(xhr.responseText);
                 }
             })
-        });         
+        });
     </script>
 
-<script type="text/javascript">
-    $("#csv").click(function () {
-        $.ajax({
+    <script type="text/javascript">
+        $("#csv").click(function () {
+            $.ajax({
                 url: '@Url.Action("ExportReports", "Reports")',
                 data: { cn: $("input[name='SelectedCG']:checked").val() },
                 type: 'POST',
                 success: function (data) {
                     alert("Exported!");
                 },
-                error: function(xhr, status, error)
-                {
+                error: function (xhr, status, error) {
                     alert(xhr.responseText);
                 }
-            })});
-</script>
+            })
+        });
+    </script>
 }
 
 <h2>Report for @ViewBag.ProjectName</h2>
@@ -61,8 +60,12 @@
             @foreach (var i in ViewBag.CustomGroups)
             {
                 string val = i;
-                @Html.RadioButton("SelectedCG", val)
-                <span>@val</span>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default">
+                        @Html.RadioButton("SelectedCG", val)
+                    </label>
+                    <span>@val</span>
+                </div>
             }
         </td>
     </tr>

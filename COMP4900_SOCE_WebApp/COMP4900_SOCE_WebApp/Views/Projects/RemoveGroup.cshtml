@@ -31,8 +31,12 @@
 @foreach (var i in ViewBag.ProjectTypes)
 {
     string val = i;
-    @Html.RadioButton("SelectedType", val)
-    <span>@val</span>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default">
+            @Html.RadioButton("SelectedType", val)
+            <span>@val</span>
+        </label>
+    </div>
 }
 <div>
     @Html.ActionLink("Back to Project Details", "Details", "Projects", new { id = ViewBag.projectId }, null)

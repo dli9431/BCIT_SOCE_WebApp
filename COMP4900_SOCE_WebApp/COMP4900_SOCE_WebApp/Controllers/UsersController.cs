@@ -68,11 +68,30 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "UserName,Email,EmailConfirmed,fName,lName,PasswordHash,LockoutEnabled,AccessFailedCount")] ApplicationUser user, string roleName)
         {
-            //if (user.PasswordHash.Length < 6)
-            //{
-            //    ViewBag.PassLength = "Password must be at least 6 characters";
-            //    return View(user);
-            //}
+            var roles = db.Roles.ToList();
+            List<string> roleList = new List<string>();
+            foreach (var role in roles)
+            {
+                roleList.Add(role.Name);
+            }
+            ViewBag.RoleDropdownlist = new SelectList(roleList);
+            
+            if (user.PasswordHash != null)
+            {
+                if (user.PasswordHash.Length < 6)
+                {
+                    ViewBag.PassLength = "Password must be at least 6 characters";
+                    return View(user);
+                }
+            }
+            else
+            {
+                ViewBag.PassLength = "Password must be at least 6 characters";
+                return View(user);
+            }
+
+            
+            
 
             if (ModelState.IsValid)
             {
