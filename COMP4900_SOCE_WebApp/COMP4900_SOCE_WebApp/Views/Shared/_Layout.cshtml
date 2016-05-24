@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -22,18 +24,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
-                    @if (User.IsInRole("Student"))
+                    @if (User.IsInRole("Student") || User.IsInRole("Supervisor"))
                     {
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
+                        <li>@Html.ActionLink("Saved Reports", "Index", "SavedReports", null, new { @UserName = User.Identity.GetUserName() })</li>
                         <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
-
                     }
 
-                    @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+                        @if (User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
+                        <li>@Html.ActionLink("Saved Reports", "Index", "SavedReports", null, new { @UserName = User.Identity.GetUserName() })</li>
                         <li>@Html.ActionLink("Users", "Index", "Users")</li>
                         <li>@Html.ActionLink("Charts", "Index", "Charts")</li>
                     }

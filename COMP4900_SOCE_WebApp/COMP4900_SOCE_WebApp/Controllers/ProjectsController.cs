@@ -23,7 +23,6 @@ namespace COMP4900_SOCE_WebApp.Controllers
         [Authorize(Roles = "Admin, Supervisor, Student")]
         public ActionResult Index()
         {
-
             var userStore = new UserStore<ApplicationUser>(db2);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
@@ -35,7 +34,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Where(m => m.UserName == user.UserName)
                 .ToList();
 
-            //get the current user role id
+            //get the current user role 
             var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
 
             if (currentRole == false)
