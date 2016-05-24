@@ -76,6 +76,86 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return View(sensorList);
         }
 
+        // GET: Reports/SavedReports
+        public ActionResult SavedReports(string repName)
+        {
+            SavedReport sr = new SavedReport();
+            sr = db.SavedReports
+                .Where(m => m.ReportName == repName)
+                .FirstOrDefault();
+            if (sr == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ProjectName = sr.ProjectName;
+            ViewBag.ReportName = sr.ReportName;
+
+            // get user's specific custom group from save report
+            var custGroup = db.SavedReports
+                .Where(m => m.ReportName == repName)
+                .Select(m => m.CustomGroupName)
+                .FirstOrDefault();
+            
+            ViewBag.CustomGroup = custGroup;
+
+            ViewBag.begin = db.SavedReports
+                .Where(m => m.ProjectName == sr.ProjectName)
+                .Select(m => m.BeginDate)
+                .FirstOrDefault();
+
+            ViewBag.end = db.SavedReports
+                .Where(m => m.ProjectName == sr.ProjectName)
+                .Select(m => m.EndDate)
+                .FirstOrDefault();
+
+            // get all custom groups
+            var custGroups = db.CustomGroups
+                .Where(m => m.ProjectName == sr.ProjectName)
+                .OrderBy(m => m.CustomGroupName)
+                .Select(m => m.CustomGroupName)
+                .Distinct()
+                .ToList();
+            ViewBag.CustomGroups = custGroups;
+
+            //code that checks if person is allowed to check this specific report
+            //var currentUser = User.Identity.GetUserName();
+            //var currentRole = User.IsInRole("Admin") || User.IsInRole("Supervisor");
+            //var projUser = db.Projects
+            //    .Where(m => m.ProjectName == projectName)
+            //    .Select(m => m.UserName)
+            //    .FirstOrDefault();
+
+            //if (!currentRole)
+            //{
+            //    if (currentUser != projUser)
+            //    {
+            //        return View("../Security/Unauthorized");
+            //    }
+            //}
+
+            List<Sensor> selectedSensors = new List<Sensor>();
+            List<Sensor> defaultSensors = new List<Sensor>();
+
+            var sensors = db.CustomGroups
+                .Where(m => m.CustomGroupName == custGroup)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            ViewData["SensorList"] = sensors;
+
+            foreach (var i in sensors)
+            {
+                var sQuery = db.Sensors
+                    .Where(m => m.SensorName == i)
+                    .FirstOrDefault();
+                selectedSensors.Add(sQuery);
+            }
+
+            return View(selectedSensors);
+        }
+
+
         [HttpPost]
         public ActionResult FilterReports(string cgName)
         {

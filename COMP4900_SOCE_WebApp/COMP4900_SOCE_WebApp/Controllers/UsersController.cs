@@ -190,10 +190,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
                         }
                     } while (saved);
                 }
-
-
-
-
+                
                 //db.Users.Attach(user);
                 //user.IsActive = isActive;
                 //db.Entry(user).State = EntityState.Modified;

@@ -42,6 +42,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
                     .FirstOrDefault();
                 saved.Add(checkReports);
             }
+            
             return View(saved);
         }
 

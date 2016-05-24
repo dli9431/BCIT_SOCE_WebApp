@@ -389,6 +389,7 @@
     <Content Include="Views\Reports\Download.cshtml" />
     <Content Include="Views\Projects\AssignGroup.cshtml" />
     <Content Include="Views\Projects\RemoveGroup.cshtml" />
+    <Content Include="Views\Reports\SavedReports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
