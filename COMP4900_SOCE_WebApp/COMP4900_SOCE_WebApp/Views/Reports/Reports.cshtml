@@ -33,9 +33,12 @@
 
     <script type="text/javascript">
         $("#csv").click(function () {
+            var FDTS = document.getElementById("StartTime").value;
+            var EDTS = document.getElementById("EndTime").value;
+
             $.ajax({
                 url: '@Url.Action("ExportReports", "Reports")',
-                data: { cn: $("input[name='SelectedCG']:checked").val() },
+                data: { cn: $("input[name='SelectedCG']:checked").val(), begin: FDTS, end: EDTS },
                 type: 'POST',
                 success: function (data) {
                     alert("Exported!");
@@ -51,11 +54,12 @@
         $("#save").click(function () {
             var pId = @ViewBag.ProjectId;
             var srN = $('#srName').val();
+            var FDTS = document.getElementById("StartTime").value;
+            var EDTS = document.getElementById("EndTime").value;
 
-            alert(pId + srN);
             $.ajax({
                 url: '@Url.Action("Save", "SavedReports")',
-                data: { id: pId, name: srN, cn: $("input[name='SelectedCG']:checked").val() },
+                data: { id: pId, name: srN, cn: $("input[name='SelectedCG']:checked").val(), sDate: FDTS, eDate: EDTS},
                 type: 'POST',
                 success: function (data) {
                     alert("Saved report");
@@ -73,7 +77,7 @@
 
 Save Report Name:
 <input type="text" class="form-control" id="srName">
-<input type="submit" value="Save" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Save", "SavedReports", new { id = ViewBag.ProjectId })'">
+<input type="submit" value="Save" class="btn btn-primary btn-large" id="save" onclick="" />
 <input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="">
 <table class="table">
     <tr>

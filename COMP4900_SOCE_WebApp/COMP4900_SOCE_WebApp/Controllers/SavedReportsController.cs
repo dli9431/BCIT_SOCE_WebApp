@@ -48,7 +48,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
         // POST SavedReports/Save
         [HttpPost]
-        public ActionResult Save(int id, string cn, string name)
+        public ActionResult Save(int id, string cn, string name, DateTime sDate, DateTime eDate)
         {
             SavedReport newReport = new SavedReport();
             var projName = db.Projects
@@ -57,8 +57,8 @@ namespace COMP4900_SOCE_WebApp.Controllers
             newReport.ProjectName = projName.ProjectName;
             newReport.CustomGroupName = cn;
             newReport.ReportName = name;
-            //newReport.BeginDate = sDate;
-            //newReport.EndDate = eDate;
+            newReport.BeginDate = sDate;
+            newReport.EndDate = eDate;
             db.SavedReports.Add(newReport);
             db.SaveChanges();
             return RedirectToAction("Reports", "Reports", new { id = id });

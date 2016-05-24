@@ -33,11 +33,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @*@Html.DisplayFor(modelItem => item.ReportName)*@
-            @Html.ActionLink((string)item.ReportName,"SavedReports", "Reports", new { repName = item.ReportName }, null)
+            @Html.ActionLink((string)item.ReportName, "SavedReports", "Reports", new { repName = item.ReportName }, null)
 
         </td>
-        <td>
+        <td>W
             @Html.DisplayFor(modelItem => item.ProjectName)
         </td>
         <td>

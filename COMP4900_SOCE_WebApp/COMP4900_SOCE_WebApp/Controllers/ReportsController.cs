@@ -191,12 +191,9 @@ namespace COMP4900_SOCE_WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult ExportReports (string cn)
+        public ActionResult ExportReports (string cn, DateTime? begin, DateTime? end)
         {
             List<double?> list = new List<double?>();
-
-            DateTime begin = DateTime.ParseExact("04/22/16 12:10", "MM/dd/yy H:mm", CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact("04/22/16 12:15", "MM/dd/yy H:mm", CultureInfo.InvariantCulture);
 
             var csv = new StringBuilder();
 
@@ -204,16 +201,6 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Where(m => m.CustomGroupName == cn)
                 .Select(m => m.SensorName)
                 .ToList();
-
-            //var customGroupSensors = (from x in db.CustomGroups                                    
-            //                           where x.CustomGroupName == form
-            //                          select x.SensorName).ToArray();
-
-            //var distinctSensorNames = (from x in db.Sensors
-
-            //                           where begin <= x.DateTime
-            //                           where end >= x.DateTime
-            //                           select x.SensorName).Distinct().ToArray();
 
             var distictDateTimes = (from x in db.Sensors
                                     where begin <= x.DateTime
@@ -245,7 +232,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
 
             Random rng = new Random();
             int fileNum = rng.Next();
-            string fileName = "D:/test" + fileNum + ".csv";
+            string fileName = "D:/" + fileNum + ".csv";
             //System.IO.File.WriteAllText("D:/test.csv", csv.ToString());
             System.IO.File.WriteAllText(fileName, csv.ToString());
             //return View();
