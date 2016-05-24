@@ -13,6 +13,8 @@
 
     <script type="text/javascript">
         $("input[name='SelectedCG']").on('change', function () {
+            //var custom = $("input[name='SelectedCG']");
+            //$(custom).on('click', function () {
             $.ajax({
                 url: '@Url.Action("FilterReports", "Reports")',
                 data: { cgName: $("input[name='SelectedCG']:checked").val() },
@@ -43,12 +45,34 @@
             })
         });
     </script>
+
+    <script type="text/javascript">
+        $("#save").click(function () {
+            var pId = @ViewBag.ProjectId;
+            var srN = $('#srName').val();
+            $.ajax({
+                url: '@Url.Action("Save", "SavedReports")',
+                data: { id: pId, name: srN, cn: $("input[name='SelectedCG']:checked").val() },
+                type: 'POST',
+                success: function (data) {
+                    alert("Saved report");
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            })
+        });
+    </script>
 }
 
 <h2>Report for @ViewBag.ProjectName</h2>
+@Html.AntiForgeryToken()
 
-<input type="submit" value="Save" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Save", "SavedReports", new { id = ViewBag.ProjectId })'">
-<input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="">
+Save Report Name:
+<input type="text" class="form-control" id="srName">
+<input type="submit" value="Save" class="btn btn-primary btn-large" id="save" onclick="" />
+<input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="" />
+
 <table class="table">
     <tr>
         <th>
@@ -57,16 +81,16 @@
     </tr>
     <tr>
         <td>
-            @foreach (var i in ViewBag.CustomGroups)
-            {
-                string val = i;
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default">
+            <div class="btn-group" data-toggle="buttons">
+                @foreach (var i in ViewBag.CustomGroups)
+                {
+                    string val = i;
+                    <label class="btn btn-primary">
                         @Html.RadioButton("SelectedCG", val)
+                        <span>@val</span>
                     </label>
-                    <span>@val</span>
-                </div>
-            }
+                }
+            </div>
         </td>
     </tr>
 </table>

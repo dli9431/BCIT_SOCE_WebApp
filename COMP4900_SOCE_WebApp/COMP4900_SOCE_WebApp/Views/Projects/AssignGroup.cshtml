@@ -9,7 +9,7 @@
         //$("#add").click(function () {
 
         //console.log($("input[name='SelectedType']:checked").val());
-
+        
         $("input[name='SelectedType']").on('change', function () {
             var pType = $("input[name='SelectedType']:checked").val();
             var pId = @Html.Raw(ViewBag.projectId);
@@ -30,16 +30,16 @@
 
 <h2>Assign Group of Sensors</h2>
 @ViewBag.Duplicates
-@foreach (var i in ViewBag.ProjectTypes)
-{
-    string val = i;
-    <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-default">
+<div class="btn-group" data-toggle="buttons">
+    @foreach (var i in ViewBag.ProjectTypes)
+    {
+        string val = i;
+        <label class="btn btn-primary">
             @Html.RadioButton("SelectedType", val)
             <span>@val</span>
         </label>
-    </div>
-}
+    }
+</div>
 <div>
     @Html.ActionLink("Back to Project Details", "Details", "Projects", new { id = ViewBag.projectId }, null)
 </div>

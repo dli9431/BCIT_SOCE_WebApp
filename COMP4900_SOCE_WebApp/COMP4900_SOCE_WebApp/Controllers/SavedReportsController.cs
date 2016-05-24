@@ -18,9 +18,10 @@ namespace COMP4900_SOCE_WebApp.Controllers
         private ApplicationDbContext db2 = new ApplicationDbContext();
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Save([Bind(Include = "")] int? id)
+        public ActionResult Save(int id, string cn, string name)
         {
+
+
             return View();
         }
 
