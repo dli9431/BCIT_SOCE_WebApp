@@ -18,7 +18,8 @@ namespace COMP4900_SOCE_WebApp.Controllers
     {
         private SensorContext db = new SensorContext();
         private ApplicationDbContext db2 = new ApplicationDbContext();
-        
+        string sensor1, sensor2, sensor3, sensor4, sensor5, sensor6;
+
         // GET: Reports
         public ActionResult Reports(int? id)
         {
@@ -172,8 +173,6 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.SensorName)
                 .ToList();
 
-            ViewData["SensorList"] = cgQuery;
-
             foreach (var i in cgQuery)
             {
                 var sQuery = db.Sensors
@@ -251,6 +250,68 @@ namespace COMP4900_SOCE_WebApp.Controllers
             System.IO.File.WriteAllText(fileName, csv.ToString());
             //return View();
             return View("Download");
+        }
+
+
+
+
+        // GET: Charts
+        public ActionResult Report(string SensorList, DateTime? FDTS, DateTime? EDTS)
+         {
+            string[] s = SensorList.Split(',');
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                int x = i + 1;
+
+                string sensorName = "sensor" + x;
+                switch (sensorName)
+                {
+                    case "sensor1":
+                        sensor1 = Convert.ToString(s[i]);
+                        break;
+                    case "sensor2":
+                        sensor2 = Convert.ToString(s[i]);
+                        break;
+                    case "sensor3":
+                        sensor3 = Convert.ToString(s[i]);
+                        break;
+                    case "sensor4":
+                        sensor4 = Convert.ToString(s[i]);
+                        break;
+                    case "sensor5":
+                        sensor5 = Convert.ToString(s[i]);
+                        break;
+                    case "sensor6":
+                        sensor6 = Convert.ToString(s[i]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return GetCharts(sensor1, sensor2, sensor3, sensor4, sensor5, sensor6, FDTS, EDTS);
+        }
+
+
+        public ActionResult GetCharts(string sensor1, string sensor2, string sensor3, string sensor4, string sensor5, string sensor6, DateTime? FDTS, DateTime? EDTS)
+        {
+
+            var chkData = (from c in db.Sensors
+                           where c.SensorName == sensor1 || c.SensorName == sensor2
+                               || c.SensorName == sensor3 || c.SensorName == sensor4
+                               || c.SensorName == sensor5 || c.SensorName == sensor6
+                               && c.DateTime >= FDTS
+                               && c.DateTime <= EDTS
+                           select new
+                           {
+                               c.SensorName,
+                               c.SensorValue,
+                               c.DateTime
+                           }).OrderBy(c => c.DateTime);
+            var List = chkData.ToList();
+
+            return Json(List, JsonRequestBehavior.AllowGet);
         }
 
     }

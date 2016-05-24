@@ -4,11 +4,9 @@
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script type="text/javascript" src="~/Scripts/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
-<body>
-</body>
 <div class="container">
     <form action="" class="form-horizontal">
         <fieldset>
@@ -40,6 +38,7 @@
 @*<input type="submit" value="Chart" class="btn btn-primary btn-large" onclick="SendValues(SensorList, FDTS, EDTS);">
     <input type="submit" value="Chart" class="btn btn-primary btn-large" onclick="SendValues2(SensorList, FDTS, EDTS);">*@
 <input type="submit" value="Chart" id="test" class="btn btn-primary btn-large" onclick="">
+
 <table class="table">
     <tr>
         <th>
@@ -74,8 +73,10 @@
         </tr>
     }
 </table>
+<div id="Chart">
+    @Html.Partial("Chart")
+</div>
 <script>
-
 
     $('.form_datetime').datetimepicker({
         //language:  'ca',
@@ -97,7 +98,6 @@
     var list2 = $(".sensorname").map(function(){
         return this.id;
     }).get();
-    //$("q").html(list2.join());
     var SensorList = list2.join();
     alert(SensorList);
     $("#test").click((function (e) {
@@ -107,24 +107,272 @@
         if (FDTS > EDTS) {
             alert("Start Time must be earlier than End Time.");
         } else {
-            pass(SensorList, FDTS, EDTS);
+            //chk(SensorList, FDTS, EDTS);
+          
+                pass(SensorList, FDTS, EDTS);
         }
+        
     }));
 
+    
     function pass(SensorList, FDTS, EDTS) {
+        alert("pass");
+        var s = new Array();
+        s = SensorList.split(",");
 
-        $.ajax({
-            url: '/Charts/Report',
-            type: "GET",
-            dataType: "json",
-            data: {
-                SensorList: SensorList,
-                FDTS: FDTS,
-                EDTS: EDTS
-            },
-            success: function (result) {
-                alert("success");
-            }
-        });
+        alert("chk" + s);
+        alert(s.length);
+        for (var i = 0; i < s.length; i++) {
+            var x = i + 1;
+            alert(x);
+
+            var sensorName = "sensor" + x;
+
+            switch (sensorName) {
+                case "sensor1":
+                    var chkSensor1 = s[i];
+                    break;
+                case "sensor2":
+                    var chkSensor2 = s[i];
+                    break;
+                case "sensor3":
+                    var chkSensor3 = s[i];
+                    break;
+                case "sensor4":
+                    var chkSensor4 = s[i];
+                    break;
+                case "sensor5":
+                    var chkSensor5 = s[i];
+                    break;
+                case "sensor6":
+                    var chkSensor6 = s[i];
+                    break;
+                default:
+                    break;
+            };
+
+            $.ajax({
+                url: '/Reports/Report',
+                type: "GET",
+                dataType: "json",
+                data: {
+                    SensorList: SensorList,
+                    FDTS: FDTS,
+                    EDTS: EDTS
+                },
+                success: function (result) {
+                    alert("success");
+                    Sensor1 = new Array();
+                    Sensor2 = new Array();
+                    Sensor3 = new Array();
+                    Sensor4 = new Array();
+                    Sensor5 = new Array();
+                    Sensor6 = new Array();
+
+                    var maxSensorValue = 0;
+
+                    for (var i = 0; i < result.length; i++) {
+
+                        var json = JSON.stringify(new Date(parseInt(result[i].DateTime.substr(6))));
+                        var parseDate = JSON.parse(json);
+                        var SensorValue = result[i].SensorValue;
+
+                        if (SensorValue > maxSensorValue) {
+                            maxSensorValue = SensorValue;
+                        }
+
+                        switch (result[i].SensorName) {
+                            case (chkSensor1):
+                                Sensor1.push({ SensorValue: SensorValue, DateTime: parseDate });
+                                break;
+                            case (chkSensor2):
+                                Sensor2.push({ SensorValue: SensorValue, DateTime: parseDate });
+                                break;
+                            case (chkSensor3):
+                                Sensor3.push({ SensorValue: SensorValue, DateTime: parseDate });
+                                break;
+                            case (chkSensor4):
+                                Sensor4.push({ SensorValue: SensorValue, DateTime: parseDate });
+                                break;
+                            case (chkSensor5):
+                                Sensor5.push({ SensorValue: SensorValue, DateTime: parseDate });
+                                break;
+                            case (chkSensor6):
+                                Sensor6.push({ SensorValue: SensorValue, DateTime: parseDate });
+                                break;
+                            default:
+                                break;
+                        };
+                    };
+
+                    if (Sensor1.length > 0) {
+                        var minDate = Sensor1[0].DateTime;
+                        var maxDate = Sensor1[Sensor1.length - 1].DateTime;
+                    } else if (Sensor2.length > 0) {
+                        var minDate = Sensor2[0].DateTime;
+                        var maxDate = Sensor2[Sensor2.length - 1].DateTime;
+                    } else if (Sensor3.length > 0) {
+                        var minDate = Sensor3[0].DateTime;
+                        var maxDate = Sensor3[Sensor3.length - 1].DateTime;
+                    } else if (Sensor4.length > 0) {
+                        var minDate = Sensor4[0].DateTime;
+                        var maxDate = Sensor4[Sensor4.length - 1].DateTime;
+                    } else if (Sensor5.length > 0) {
+                        var minDate = Sensor5[0].DateTime;
+                        var maxDate = Sensor5[Sensor5.length - 1].DateTime;
+                    } else if (Sensor6.length > 0) {
+                        var minDate = Sensor6[0].DateTime;
+                        var maxDate = Sensor6[Sensor6.length - 1].DateTime;
+                    }
+
+                    var vis = d3.select("#visualisation").append('svg'),
+                        WIDTH = 800,
+                        HEIGHT = 600,
+                        MARGINS = {
+                            top: 20,
+                            right: 100,
+                            bottom: 100,
+                            left: 50
+                        }
+
+                    vis.attr('height', HEIGHT)
+                       .attr('width', WIDTH);
+
+                    //Defining time format
+                    var timeFormat = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
+
+                    //Defining range for x. Defining range and domain for y
+                    var x = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right])
+                    var y = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom])//.domain([0, 20])
+
+                    //Defining domain for x
+                    x.domain([timeFormat.parse(minDate), timeFormat.parse(maxDate)])
+                    //x.domain(d3.extent(data, function (d) { return d.metricDate; }));
+                    //y.domain([0, d3.max(Sensor1, function (d) { return +d.SensorValue; })]);
+                    y.domain([0, maxSensorValue + 1]);
+
+                    var make_y_axis = function () {
+                        return d3.svg.axis()
+                            .scale(y)
+                            .orient("left")
+                            .ticks(5);
+                    };
+
+
+                    //Define x axis
+                    var xAxis = d3.svg.axis()
+                        .scale(x)
+                        .ticks(8)
+                        .orient("bottom")
+                        .tickFormat(d3.time.format("%Y-%m-%d% %H:%M:%S")); //insert the tickFormat function
+
+                    //Define y axis
+                    var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .orient("left");
+
+
+                    //Appending the axes to the svg
+                    vis.append("svg:g")
+                        .attr("class", "axis")
+                        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+                        .call(xAxis)
+                        .selectAll("text")
+                        .attr("y", 0)
+                        .attr("x", 9)
+                        .attr("dy", ".35em")
+                        .attr("transform", "rotate(45)")
+                        .style("text-anchor", "start");
+
+                    vis.append("svg:g")
+                        .attr("class", "axis")
+                        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+                        .call(yAxis)
+                        .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 6)
+                        .attr("dy", ".71em")
+                        .style("text-anchor", "end")
+                        .text("Sensor Value");
+
+                    //Define line
+                    var lineGen = d3.svg.line()
+                        .x(function (d) {
+                            return x(timeFormat.parse(d.DateTime));
+                        })
+                        .y(function (d) {
+                            return y(d.SensorValue);
+                        });
+
+                    //Appending the line to the svg
+                    vis.append('svg:path')
+                        .attr('d', lineGen(Sensor1))
+                        .attr('stroke', 'green')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+
+                    //Appending the line to the svg
+                    vis.append('svg:path')
+                        .attr('d', lineGen(Sensor2))
+                        .attr('stroke', 'orange')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+
+                    //Appending the line to the svg
+                    vis.append('svg:path')
+                        .attr('d', lineGen(Sensor3))
+                        .attr('stroke', 'blue')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+
+                    //Appending the line to the svg
+                    vis.append('svg:path')
+                        .attr('d', lineGen(Sensor4))
+                        .attr('stroke', 'red')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+
+                    //Appending the line to the svg
+                    vis.append('svg:path')
+                        .attr('d', lineGen(Sensor5))
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+
+                    //Appending the line to the svg
+                    vis.append('svg:path')
+                        .attr('d', lineGen(Sensor6))
+                        .attr('stroke', 'brown')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');
+                },
+                error: function () {
+                    console.log("Check ajax");
+                }
+
+            });
+        }
     }
+    
+    
 </script>
+
+
+<style>
+    .axis path {
+        fill: none;
+        stroke: #777;
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        font-family: Lato;
+        font-size: 13px;
+    }
+</style>
+
+<div class="container">
+    <div clss="jumbotron">
+        <svg id="visualisation" width="1000" height="600"></svg>
+    </div>
+</div>

@@ -14,7 +14,7 @@ namespace COMP4900_SOCE_WebApp.Controllers
     public class ChartsController : Controller
     {
         private SensorContext db = new SensorContext();
-
+        string sensor1, sensor2, sensor3, sensor4, sensor5, sensor6;
         public ActionResult DateTime()
         {
             return View();
@@ -43,14 +43,11 @@ namespace COMP4900_SOCE_WebApp.Controllers
             ViewData["sensor6"] = sensorNamesList;
             return View();
         }
-        string sensor1, sensor2, sensor3, sensor4, sensor5, sensor6;
 
         // GET: Charts
         public ActionResult Report(string SensorList, DateTime? FDTS, DateTime? EDTS)
         {
             string[] s = SensorList.Split(',');
-
-            
 
             for (var i = 0; i < s.Length; i++)
             {
