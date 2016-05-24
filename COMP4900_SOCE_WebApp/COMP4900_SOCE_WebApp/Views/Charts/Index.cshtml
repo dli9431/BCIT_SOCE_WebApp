@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<SensorDataModel.Models.Sensor>
+﻿
 @{
     ViewBag.Title = "Charts";
 }
@@ -94,15 +94,6 @@
 @using (Html.BeginForm())
 {
     <h4>Select Sensors</h4>
-    <p>
-        @Html.DropDownListFor(q => q.SensorList, Model.SensorList, "(Choose a Site)",
-                                new
-                                {
-                                    style = "width:240px;",
-                                    @class = "form-control",
-                                    @onchange = "onChange('Site');",
-                                })
-    </p>
     @Html.DropDownList("sensor1", ViewData["sensor1"] as SelectList, "-- Sensor 1 --", htmlAttributes: new { @class = "form-control" })
     @Html.DropDownList("sensor2", ViewData["sensor2"] as SelectList, "-- Sensor 2 --", htmlAttributes: new { @class = "form-control" })
     @Html.DropDownList("sensor3", ViewData["sensor3"] as SelectList, "-- Sensor 3 --", htmlAttributes: new { @class = "form-control" })
@@ -146,6 +137,26 @@
 <script>
     function InitChart(Sensor1, Sensor2, Sensor3, Sensor4, Sensor5, Sensor6, chkSensor1, chkSensor2, chkSensor3, chkSensor4, chkSensor5, chkSensor6, maxSensorValue) {
         //initializing dimensions of the visulisation
+        if (Sensor1.length > 0) {
+            var minDate = Sensor1[0].DateTime;
+            var maxDate = Sensor1[Sensor1.length - 1].DateTime;
+        } else if (Sensor2.length > 0) {
+            var minDate = Sensor2[0].DateTime;
+            var maxDate = Sensor2[Sensor2.length - 1].DateTime;
+        } else if (Sensor3.length > 0) {
+            var minDate = Sensor3[0].DateTime;
+            var maxDate = Sensor3[Sensor3.length - 1].DateTime;
+        } else if (Sensor4.length > 0) {
+            var minDate = Sensor4[0].DateTime;
+            var maxDate = Sensor4[Sensor4.length - 1].DateTime;
+        } else if (Sensor5.length > 0) {
+            var minDate = Sensor5[0].DateTime;
+            var maxDate = Sensor5[Sensor5.length - 1].DateTime;
+        } else if (Sensor6.length > 0) {
+            var minDate = Sensor6[0].DateTime;
+            var maxDate = Sensor6[Sensor6.length - 1].DateTime;
+        }
+
         var vis = d3.select("#visualisation").append('svg'),
             WIDTH = 800,
             HEIGHT = 600,
@@ -166,14 +177,19 @@
         var x = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right])
         var y = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom])//.domain([0, 20])
 
-        var minDate = Sensor1[0].DateTime;
-        var maxDate = Sensor1[Sensor1.length - 1].DateTime;
-
         //Defining domain for x
         x.domain([timeFormat.parse(minDate), timeFormat.parse(maxDate)])
         //x.domain(d3.extent(data, function (d) { return d.metricDate; }));
         //y.domain([0, d3.max(Sensor1, function (d) { return +d.SensorValue; })]);
         y.domain([0, maxSensorValue + 1]);
+
+        var make_y_axis = function () {
+            return d3.svg.axis()
+                .scale(y)
+                .orient("left")
+                .ticks(5);
+        };
+
 
         //Define x axis
         var xAxis = d3.svg.axis()
@@ -186,6 +202,7 @@
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left");
+
 
         //Appending the axes to the svg
         vis.append("svg:g")
@@ -432,4 +449,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}*@
+}

@@ -12,9 +12,8 @@
     @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
     <script type="text/javascript">
+
         $("input[name='SelectedCG']").on('change', function () {
-            //var custom = $("input[name='SelectedCG']");
-            //$(custom).on('click', function () {
             $.ajax({
                 url: '@Url.Action("FilterReports", "Reports")',
                 data: { cgName: $("input[name='SelectedCG']:checked").val() },
@@ -23,56 +22,50 @@
                     $('#reportTable').html(data);
                     $('#reportTable').show();
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error)
+                {
                     alert(xhr.responseText);
                 }
             })
         });
+
+        var SensorList = @Html.Raw(Json.Encode(ViewData["SensorList"]));
+
+        function SendValues2(SensorList, FDTS, EDTS){
+            var FDTS = document.getElementById("StartTime").value;
+            var EDTS = document.getElementById("EndTime").value;
+
+            if (FDTS >= EDTS) {
+                alert("Start Time must be earlier than End Time.");
+            } else {
+                consloe.log(FDTS);
+                alert(SensorList + " " +  FDTS + " " + EDTS);
+            }
+        }
+
     </script>
 
     <script type="text/javascript">
-        $("#csv").click(function () {
-            $.ajax({
+    $("#csv").click(function () {
+        $.ajax({
                 url: '@Url.Action("ExportReports", "Reports")',
                 data: { cn: $("input[name='SelectedCG']:checked").val() },
                 type: 'POST',
                 success: function (data) {
                     alert("Exported!");
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error)
+                {
                     alert(xhr.responseText);
                 }
-            })
-        });
-    </script>
-
-    <script type="text/javascript">
-        $("#save").click(function () {
-            var pId = @ViewBag.ProjectId;
-            var srN = $('#srName').val();
-            $.ajax({
-                url: '@Url.Action("Save", "SavedReports")',
-                data: { id: pId, name: srN, cn: $("input[name='SelectedCG']:checked").val() },
-                type: 'POST',
-                success: function (data) {
-                    alert("Saved report");
-                },
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                }
-            })
-        });
+            })});
     </script>
 }
 
 <h2>Report for @ViewBag.ProjectName</h2>
-@Html.AntiForgeryToken()
 
-Save Report Name:
-<input type="text" class="form-control" id="srName">
-<input type="submit" value="Save" class="btn btn-primary btn-large" id="save" onclick="" />
-<input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="" />
-
+<input type="submit" value="Save" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Save", "SavedReports", new { id = ViewBag.ProjectId })'">
+<input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="">
 <table class="table">
     <tr>
         <th>
@@ -81,20 +74,52 @@ Save Report Name:
     </tr>
     <tr>
         <td>
-            <div class="btn-group" data-toggle="buttons">
-                @foreach (var i in ViewBag.CustomGroups)
-                {
-                    string val = i;
-                    <label class="btn btn-primary">
-                        @Html.RadioButton("SelectedCG", val)
-                        <span>@val</span>
-                    </label>
-                }
-            </div>
+            @foreach (var i in ViewBag.CustomGroups)
+            {
+                string val = i;
+                @Html.RadioButton("SelectedCG", val)
+                <span>@val</span>
+            }
         </td>
     </tr>
 </table>
 
 <div id="reportTable"></div>
 
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
 
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'ca',
+        format: 'yyyy-mm-dd hh:ii',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+    var SensorList = @Html.Raw(Json.Encode(ViewData["SensorList"]));
+    var FDTS = document.getElementById("StartTime").value;
+    var EDTS = document.getElementById("EndTime").value;
+
+    function SendValues(SensorList, FDTS, EDTS){
+        alert(FDTS);
+        alert(EDTS);
+        var x = $("#datetimepicker").find("dtp_input1").val();
+        alert(x);
+        if (FDTS >= EDTS) {
+            alert("Start Time must be earlier than End Time.");
+        } else {
+            consloe.log(FDTS);
+            alert(SensorList + " " +  FDTS + " " + EDTS);
+        }
+    }
+</script>

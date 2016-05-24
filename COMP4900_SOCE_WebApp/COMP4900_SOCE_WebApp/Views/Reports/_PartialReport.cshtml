@@ -1,5 +1,39 @@
 ﻿@model IEnumerable<SensorDataModel.Models.Sensor>
 
+
+<body>
+</body>
+<div class="container">
+    <form action="" class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label>
+                    Select Start DateTime:
+                </label>
+                <div class="controls input-append date form_datetime" data-date="2016-05-22T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input2">
+                    <input size="20" id="StartTime" type="text" value="" readonly>
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+                <input type="hidden" id="dtp_input1" value="" /><br />
+            </div>
+            <div class="control-group">
+                <label>
+                    Select End DateTime:
+                </label>
+                <div class="controls input-append date form_datetime" data-date="2016-05-22T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input size="20" id="EndTime" type="text" value="" readonly>
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+                <input type="hidden" id="dtp_input2" value="" /><br />
+            </div>
+        </fieldset>
+    </form>
+</div>
+<input type="submit" value="Chart" class="btn btn-primary btn-large" onclick="SendValues(SensorList, FDTS, EDTS);">
+<input type="submit" value="Chart" class="btn btn-primary btn-large" onclick="SendValues2(SensorList, FDTS, EDTS);">
+
 <table class="table">
     <tr>
         <th>
@@ -31,3 +65,4 @@
         </tr>
     }
 </table>
+

@@ -92,6 +92,8 @@ namespace COMP4900_SOCE_WebApp.Controllers
                 .Select(m => m.SensorName)
                 .ToList();
 
+            ViewData["SensorList"] = cgQuery;
+
             foreach (var i in cgQuery)
             {
                 var sQuery = db.Sensors
