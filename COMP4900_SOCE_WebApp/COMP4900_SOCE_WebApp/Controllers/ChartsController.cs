@@ -48,19 +48,18 @@ namespace COMP4900_SOCE_WebApp.Controllers
             return View();
         }
 
+        // GET: Charts
+        public ActionResult Report(DateTime FDTS, DateTime EDTS)
+        {
+
+            return View();
+        }
 
         public ActionResult GetCharts(string sensor1, string sensor2, string sensor3, string sensor4, string sensor5, string sensor6, DateTime FDTS, DateTime EDTS)
         {
             //  Debug.Write("begin date: ");
-            //var sensor1 = "NSSGMbMc";
-            //var sensor2 = "NSSGMtMc";
-            //var sensor3 = "NSWGMbMc";
-            //var sensor4 = "NSWGMmMc";
-            //var sensor5 = "NSEGMtMc";
-            //var sensor6 = "NNEGMmMc";
-            //DateTime FDTS = new DateTime(2016, 4, 22, 19, 27, 15);
-            //DateTime EDTS = new DateTime(2016, 4, 30, 19, 27, 15);
-
+            FDTS = new DateTime(2016, 4, 22, 19, 27, 15);
+            EDTS = new DateTime(2016, 4, 30, 19, 27, 15);
             // var FfDTS = DateTime.ParseExact("04/22/2016 12:10", "MM/dd/yy H:mm", CultureInfo.InvariantCulture);
 
             var chkData = (from c in db.Sensors
