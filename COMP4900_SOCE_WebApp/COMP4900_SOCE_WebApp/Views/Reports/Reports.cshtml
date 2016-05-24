@@ -29,20 +29,6 @@
             })
         });
 
-        var SensorList = @Html.Raw(Json.Encode(ViewData["SensorList"]));
-
-        function SendValues2(SensorList, FDTS, EDTS){
-            var FDTS = document.getElementById("StartTime").value;
-            var EDTS = document.getElementById("EndTime").value;
-
-            if (FDTS >= EDTS) {
-                alert("Start Time must be earlier than End Time.");
-            } else {
-                consloe.log(FDTS);
-                alert(SensorList + " " +  FDTS + " " + EDTS);
-            }
-        }
-
     </script>
 
     <script type="text/javascript">
@@ -89,41 +75,3 @@
 </table>
 
 <div id="reportTable"></div>
-
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
-<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-<script type="text/javascript" src="~/Scripts/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
-
-<script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        //language:  'ca',
-        format: 'yyyy-mm-dd hh:ii',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-    });
-
-    var SensorList = @Html.Raw(Json.Encode(ViewData["SensorList"]));
-    var FDTS = document.getElementById("StartTime").value;
-    var EDTS = document.getElementById("EndTime").value;
-
-    function SendValues(SensorList, FDTS, EDTS){
-        alert(FDTS);
-        alert(EDTS);
-        var x = $("#datetimepicker").find("dtp_input1").val();
-        alert(x);
-        if (FDTS >= EDTS) {
-            alert("Start Time must be earlier than End Time.");
-        } else {
-            consloe.log(FDTS);
-            alert(SensorList + " " +  FDTS + " " + EDTS);
-        }
-    }
-</script>
