@@ -46,10 +46,33 @@
                 }
             })});
     </script>
+
+<script type="text/javascript">
+        $("#save").click(function () {
+            var pId = @ViewBag.ProjectId;
+            var srN = $('#srName').val();
+
+            alert(pId + srN);
+            $.ajax({
+                url: '@Url.Action("Save", "SavedReports")',
+                data: { id: pId, name: srN, cn: $("input[name='SelectedCG']:checked").val() },
+                type: 'POST',
+                success: function (data) {
+                    alert("Saved report");
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            })
+        });
+    </script>
 }
 
 <h2>Report for @ViewBag.ProjectName</h2>
+@Html.AntiForgeryToken()
 
+Save Report Name:
+<input type="text" class="form-control" id="srName">
 <input type="submit" value="Save" class="btn btn-primary btn-large" onclick="location.href='@Url.Action("Save", "SavedReports", new { id = ViewBag.ProjectId })'">
 <input type="submit" value="Export" class="btn btn-primary btn-large" id="csv" onclick="">
 <table class="table">
