@@ -115,15 +115,11 @@
 
     
     function pass(SensorList, FDTS, EDTS) {
-        alert("pass");
         var s = new Array();
         s = SensorList.split(",");
 
-        alert("chk" + s);
-        alert(s.length);
         for (var i = 0; i < s.length; i++) {
             var x = i + 1;
-            alert(x);
 
             var sensorName = "sensor" + x;
 
@@ -160,7 +156,6 @@
                     EDTS: EDTS
                 },
                 success: function (result) {
-                    alert("success");
                     Sensor1 = new Array();
                     Sensor2 = new Array();
                     Sensor3 = new Array();

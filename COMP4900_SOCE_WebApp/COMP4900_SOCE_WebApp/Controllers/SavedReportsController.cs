@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using SensorDataModel.Models;
 using COMP4900_SOCE_WebApp.Models;
 using Microsoft.AspNet.Identity;
+using System.Text;
 
 namespace COMP4900_SOCE_WebApp.Controllers
 {
@@ -42,13 +43,13 @@ namespace COMP4900_SOCE_WebApp.Controllers
                     .FirstOrDefault();
                 saved.Add(checkReports);
             }
-            
+
             return View(saved);
         }
 
         // POST SavedReports/Save
         [HttpPost]
-        public ActionResult Save(int id, string cn, string name, DateTime sDate, DateTime eDate)
+        public ActionResult Save(int id, string cn, string name)
         {
             SavedReport newReport = new SavedReport();
             var projName = db.Projects
@@ -57,13 +58,91 @@ namespace COMP4900_SOCE_WebApp.Controllers
             newReport.ProjectName = projName.ProjectName;
             newReport.CustomGroupName = cn;
             newReport.ReportName = name;
-            newReport.BeginDate = sDate;
-            newReport.EndDate = eDate;
+            //newReport.BeginDate = sDate;
+            //newReport.EndDate = eDate;
             db.SavedReports.Add(newReport);
             db.SaveChanges();
             return RedirectToAction("Reports", "Reports", new { id = id });
         }
 
+        [HttpGet]
+        public FileResult Export(string repName)
+        {
+            List<double?> list = new List<double?>();
+
+            DateTime begin = db.SavedReports
+                .Where(m => m.ReportName == repName)
+                .Select(m => m.BeginDate)
+                .FirstOrDefault();
+            DateTime end = db.SavedReports
+                .Where(m => m.ReportName == repName)
+                .Select(m => m.EndDate)
+                .FirstOrDefault();
+
+            var csv = new StringBuilder();
+
+            var cn = db.SavedReports
+                .Where(m => m.ReportName == repName)
+                .Select(m => m.CustomGroupName)
+                .FirstOrDefault();
+
+            var snList = db.CustomGroups
+                .Where(m => m.CustomGroupName == cn)
+                .Select(m => m.SensorName)
+                .ToList();
+
+            //var customGroupSensors = (from x in db.CustomGroups                                    
+            //                           where x.CustomGroupName == form
+            //                          select x.SensorName).ToArray();
+
+            //var distinctSensorNames = (from x in db.Sensors
+
+            //                           where begin <= x.DateTime
+            //                           where end >= x.DateTime
+            //                           select x.SensorName).Distinct().ToArray();
+
+            var distictDateTimes = (from x in db.Sensors
+                                    where begin <= x.DateTime
+                                    where end >= x.DateTime
+                                    select x.DateTime).Distinct().ToArray();
+
+            csv.Append("Sensor,");
+            csv.Append(String.Join(",", snList) + "\n");
+
+            for (int i = 0; i < distictDateTimes.Count(); i++)
+            {
+                var dateTimeTmp = distictDateTimes[i];
+
+                for (int j = 0; j < snList.Count(); j++)
+                {
+                    var headerTmp = snList[j];
+
+                    var sensorValues = (from x in db.Sensors
+                                        where x.SensorName.Contains(headerTmp)
+                                        where x.DateTime.Equals(dateTimeTmp)
+                                        select x.SensorValue).FirstOrDefault();
+
+                    list.Add(sensorValues);
+                }
+                csv.Append(dateTimeTmp.ToString("MM/dd/yy H:mm") + "," + String.Join(",", list));
+                list.Clear();
+                csv.Append("\n");
+            }
+
+            Random rng = new Random();
+            int fileNum = rng.Next();
+            //string fileName = "D:/test" + fileNum + ".csv";
+            //System.IO.File.WriteAllText("D:/test.csv", csv.ToString());
+            //System.IO.File.WriteAllText(fileName, csv.ToString());
+            //return View();
+            //return View("Download");
+
+            //byte[] fileBytes = System.IO.File.ReadAllBytes(csv.ToString());
+            string fileName = repName + fileNum;
+            //return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Zip, fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(csv.ToString()), "text/csv", repName + fileName + ".csv");
+
+        }
 
         //// GET: SavedReports
         //public async Task<ActionResult> Index()

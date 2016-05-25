@@ -1,0 +1,13 @@
+Accessing database:
+
+Command Line:
+open command prompt (run -> cmd)
+mysql -u root -p
+password: thisismysql
+
+Open -> MySQL Workbench
+select soceweb (database)
+
+Accessing Application
+Username: A00111111
+Password: P@$$w0rd
